@@ -1,0 +1,14 @@
+{
+  // https://nextjs.org/docs/advanced-features/module-path-aliases
+  // 절대경로 임포트 추가
+  // 아래의 paths 경로를 .eslintrc.json에도 추가해줘야 vscode에서 정상 인식
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@redux/*": ["src/redux/*"],
+      "@styles/*": ["styles/*"]
+    }
+  }
+}
