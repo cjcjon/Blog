@@ -27,4 +27,4 @@ function QuillEditorContainer() {
   );
 }
 
-export default QuillEditorContainer;
+export default React.memo(QuillEditorContainer);

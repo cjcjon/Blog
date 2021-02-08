@@ -42,4 +42,4 @@ function WritePostButtons({ onSubmit, onCancle }) {
   );
 }
 
-export default WritePostButtons;
+export default React.memo(WritePostButtons);
