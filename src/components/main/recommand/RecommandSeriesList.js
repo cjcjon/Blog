@@ -14,7 +14,7 @@ function RecommandSeriesList({ recommandSeries }) {
             <ColumnPost
               href={`/series/list/${data.id}`}
               title={data.title}
-              subText={data.makeDate}
+              subText={data.lastPostDate}
             />
           </Box>
         ))}
