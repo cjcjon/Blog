@@ -5,7 +5,6 @@ import TagChip from "./TagChip";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    display: "flex",
     overflowX: "auto",
     overflowY: "hidden",
     whiteSpace: "nowrap",
@@ -14,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listResponsive: {
-    display: "flex",
     overflowX: "auto",
     overflowY: "hidden",
     whiteSpace: "nowrap",
@@ -22,15 +20,13 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "4px",
     },
     [theme.breakpoints.up("sm")]: {
+      display: "flex",
+      flexWrap: "wrap",
+      margin: "-4px",
       marginTop: theme.spacing(1),
-      flexDirection: "column",
       overflowX: "initial",
       overflowY: "initial",
       whiteSpace: "initial",
-      "& * + *": {
-        margin: "0",
-        marginTop: "4px",
-      },
     },
   },
 }));
@@ -41,12 +37,7 @@ function TagList({ responsive, tags }) {
   return (
     <div className={clsx(responsive ? classes.listResponsive : classes.list)}>
       {tags.map((data) => (
-        <TagChip
-          key={data.text}
-          href="/"
-          text={data.text}
-          number={data.number}
-        />
+        <TagChip key={data.tag} href="/" text={data.tag} number={data.count} />
       ))}
     </div>
   );
