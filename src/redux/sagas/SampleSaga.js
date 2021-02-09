@@ -34,7 +34,7 @@ const initialState = 3;
 // 무조건 HYDRATE 있어야 한다. (next.js의 SSR을 위해서 next-redux-wrapper에서 추가한 action)
 const sampleReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({ ...state, ...action.payload }),
+    [HYDRATE]: (state, action) => state,
     [INCREASE]: (state) => state + 1,
     [DECREASE]: (state) => state - 1,
   },

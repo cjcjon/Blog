@@ -1,5 +1,8 @@
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import { END } from "redux-saga";
+import Store from "@redux/Store";
+import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
 import RecentPanel from "@components/main/recentPosts/RecentPanel";
 import TagPanel from "@components/tags/TagPanel";
@@ -33,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function index() {
+function index({ recentPost, tagGroup, seriesRecommand, postRecommand }) {
   const classes = useStyles();
   const sizeStyles = useSizeStyles();
 
@@ -95,83 +98,18 @@ function index() {
           </Grid>
         </Grid>
       </Grid>
-
-      {/* {responsiveMatch ? (
-        <Grid container spacing={2} className={classes.contentsRoot}>
-          <Grid container item spacing={2} xs={9} style={{ margin: "0" }}>
-            <Grid item xs={6}>
-              <RecommandSeriesPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <RecommandPostPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <MostViewedPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <DailyVisitPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <RecentCommentPanel />
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="stretch"
-            spacing={2}
-            xs={3}
-            style={{ margin: "0" }}
-          >
-            <Grid item>
-              <About />
-            </Grid>
-            <Grid item>
-              <SocialPanel />
-            </Grid>
-            <Grid item>
-              <TagPanel responsiveMatch={responsiveMatch} />
-            </Grid>
-          </Grid>
-        </Grid>
-      ) : (
-        <Grid
-          container
-          direction="column"
-          justify="flex-start"
-          alignItems="stretch"
-          spacing={2}
-          className={classes.contentsRoot}
-        >
-          <Grid item className={sizeStyles.fullWidth}>
-            <About />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <TagPanel responsiveMatch={responsiveMatch} />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecommandSeriesPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecommandPostPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <MostViewedPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecentCommentPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <DailyVisitPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <SocialPanel />
-          </Grid>
-        </Grid>
-      )} */}
     </>
   );
 }
+
+export const getServerSideProps = Store.getServerSideProps(
+  async ({ store }) => {
+    // 초기 데이터 불러오기
+    store.dispatch(loadInitialData());
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+  },
+);
 
 export default index;
