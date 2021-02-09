@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecentPostCard({ href, imageUrl, title, desc, date }) {
+function RecentPostCard({ href, imageUrl, title, body, date }) {
   const classes = useStyles();
 
   return (
@@ -69,10 +69,7 @@ function RecentPostCard({ href, imageUrl, title, desc, date }) {
       <Card className={classes.root}>
         {imageUrl && (
           <div className={classes.mediaContent}>
-            <CardMedia
-              image="https://source.unsplash.com/random"
-              className={classes.mediaImage}
-            />
+            <CardMedia image={imageUrl} className={classes.mediaImage} />
           </div>
         )}
         <div className={classes.details}>
@@ -84,7 +81,7 @@ function RecentPostCard({ href, imageUrl, title, desc, date }) {
               {title}
             </Typography>
             <Typography variant="body2" className={classes.descText}>
-              {desc}
+              {body}
             </Typography>
           </CardContent>
         </div>

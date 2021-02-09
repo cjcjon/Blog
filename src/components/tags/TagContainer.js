@@ -27,7 +27,7 @@ const tags = [
   { text: "vue", number: 2 },
 ];
 
-function TagPanel() {
+function TagContainer() {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -44,4 +44,4 @@ function TagPanel() {
   );
 }
 
-export default React.memo(TagPanel);
+export default React.memo(TagContainer);

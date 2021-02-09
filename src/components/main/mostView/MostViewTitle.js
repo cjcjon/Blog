@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function MostViewedTitle() {
+function MostViewTitle({ title }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -27,10 +27,10 @@ function MostViewedTitle() {
       >
         <WhatshotIcon />
         &nbsp;
-        <b>Hot</b>
+        <b>{title}</b>
       </Typography>
     </Box>
   );
 }
 
-export default React.memo(MostViewedTitle);
+export default React.memo(MostViewTitle);

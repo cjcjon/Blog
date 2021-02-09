@@ -17,7 +17,7 @@ export const loadInitialData = createAction(LOAD_INITIAL_DATA);
 function* loadInitialDataSaga() {
   try {
     // all을 통해 Concurrent하게 호출된다.
-    const [recentRes, tagRes, seriesRes, postRes, hotRes] = yield all([
+    const [recentRes, tagRes, seriesRes, postRes, viewRes] = yield all([
       call(postApi.recentPost),
       call(tagApi.groupTag),
       call(seriesApi.recommandSeries),
@@ -32,7 +32,7 @@ function* loadInitialDataSaga() {
         tagGroups: tagRes.data,
         recommandSeries: seriesRes.data,
         recommandPosts: postRes.data,
-        hotPosts: hotRes.data,
+        mostViewPosts: viewRes.data,
       },
     });
   } catch (err) {
@@ -49,7 +49,7 @@ const initialState = {
   tagGroups: [],
   recommandSeries: [],
   recommandPosts: [],
-  hotPosts: [],
+  mostViewPosts: [],
   error: null,
 };
 
@@ -66,7 +66,7 @@ const mainReducer = handleActions(
           tagGroups,
           recommandSeries,
           recommandPosts,
-          hotPosts,
+          mostViewPosts,
         },
       },
     ) => ({
@@ -75,7 +75,7 @@ const mainReducer = handleActions(
       tagGroups,
       recommandSeries,
       recommandPosts,
-      hotPosts,
+      mostViewPosts,
       error: null,
     }),
     [LOAD_INITIAL_DATA_FAILURE]: (state, { payload }) => ({

@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function RecommandSeriesTitle() {
+function RecommandSeriesTitle({ title, subTitle }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -35,10 +35,10 @@ function RecommandSeriesTitle() {
       >
         <ThumbUpIcon />
         &nbsp;
-        <b>추천 시리즈</b>
+        <b>{title}</b>
       </Typography>
       <Typography variant="body1" className={classes.english}>
-        Recommand
+        {subTitle}
       </Typography>
     </Box>
   );

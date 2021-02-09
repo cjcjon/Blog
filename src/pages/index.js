@@ -4,11 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Store from "@redux/Store";
 import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
-import RecentPanel from "@components/main/recentPosts/RecentPanel";
-import TagPanel from "@components/tags/TagPanel";
-import RecommandSeriesPanel from "@src/components/main/recommand/RecommandSeriesPanel";
-import RecommandPostPanel from "@src/components/main/recommand/RecommandPostPanel";
-import MostViewedPanel from "@components/main/mostViewed/MostViewedPanel";
+import TagContainer from "@src/components/tags/TagContainer";
+import RecentPostContainer from "@src/components/main/recentPosts/RecentPostContainer";
+import RecommandSeriesContainer from "@src/components/main/recommand/RecommandSeriesContainer";
+import RecommandPostContainer from "@src/components/main/recommand/RecommandPostContainer";
+import MostViewContainer from "@src/components/main/mostView/MostViewContainer";
 import DailyVisitPanel from "@components/main/dailyVisits/DailyVisitPanel";
 import RecentCommentPanel from "@components/main/recentComments/RecentCommentPanel";
 import { useSizeStyles } from "@styles/useful.styles";
@@ -46,7 +46,7 @@ function index() {
       <Banner imageUrl="test" text="마구잡이 블로그" />
 
       {/* 최근 작성 글 패널 */}
-      <RecentPanel />
+      <RecentPostContainer />
 
       {/* 
         표시될 하부 컴포넌트들
@@ -67,13 +67,13 @@ function index() {
           className={classes.leftContents}
         >
           <Grid item xs={12} sm={6}>
-            <RecommandSeriesPanel />
+            <RecommandSeriesContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <RecommandPostPanel />
+            <RecommandPostContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <MostViewedPanel />
+            <MostViewContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
             <DailyVisitPanel />
@@ -94,7 +94,7 @@ function index() {
           className={classes.rightContents}
         >
           <Grid item className={sizeStyles.fullWidth}>
-            <TagPanel />
+            <TagContainer />
           </Grid>
         </Grid>
       </Grid>

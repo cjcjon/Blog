@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RecommandPostTitle() {
+function RecommandPostTitle({ title, subTitle }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -36,10 +36,10 @@ function RecommandPostTitle() {
       >
         <ThumbUpOutlinedIcon />
         &nbsp;
-        <b>추천 포스트</b>
+        <b>{title}</b>
       </Typography>
       <Typography variant="body1" className={classes.english}>
-        Recommand
+        {subTitle}
       </Typography>
     </Box>
   );

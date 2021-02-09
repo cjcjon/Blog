@@ -10,14 +10,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function RecentTitle() {
+function RecentTitle({ title }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
   return (
     <div className={classes.root}>
       <Typography variant="h5" className={wordStyles.bold}>
-        최신 작성글
+        {title}
       </Typography>
     </div>
   );
