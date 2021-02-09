@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -13,21 +14,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const tags = [
-  { text: "전체보기", number: 19 },
-  { text: "js", number: 15 },
-  { text: "css", number: 3 },
-  { text: "html", number: 1 },
-  { text: "js2", number: 15 },
-  { text: "c++", number: 3 },
-  { text: "html2", number: 5 },
-  { text: "css2", number: 1 },
-  { text: "c#", number: 9 },
-  { text: "react", number: 8 },
-  { text: "vue", number: 2 },
-];
-
 function TagContainer() {
+  const tagGroups = useSelector(({ main }) => main.tagGroups);
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -39,7 +27,7 @@ function TagContainer() {
       <Hidden only="xs">
         <Divider />
       </Hidden>
-      <TagList responsive tags={tags} />
+      <TagList responsive tags={tagGroups} />
     </Box>
   );
 }
