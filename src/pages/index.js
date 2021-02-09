@@ -1,6 +1,6 @@
+import { END } from "redux-saga";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { END } from "redux-saga";
 import Store from "@redux/Store";
 import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function index({ recentPost, tagGroup, seriesRecommand, postRecommand }) {
+function index() {
   const classes = useStyles();
   const sizeStyles = useSizeStyles();
 
