@@ -10,6 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { useErrorStyles } from "@styles/useful.styles";
 
 const useStyles = makeStyles((theme) => ({
   validationInput: {
@@ -26,55 +27,48 @@ const useStyles = makeStyles((theme) => ({
       borderWidth: 2,
     },
   },
-  errorMessage: {
-    color: theme.palette.error.main,
-    textAlign: "center",
-    fontSize: "0.875rem",
-    marginTop: "1rem",
-  },
 }));
 
 function SeriesFormDialog({
+  update,
   open,
-  title,
-  thumbnailFile,
-  previewURL,
+  dialogTitle,
+  desc,
+  seriesDialog,
   handleClose,
   handleChange,
   handleFileChange,
   onSubmit,
-  inputError,
   error,
 }) {
   const classes = useStyles();
+  const errorStyles = useErrorStyles();
 
   return (
     <div>
-      <Dialog open={open} aria-labelledby="form-series-dialog">
-        <DialogTitle>Manage Series</DialogTitle>
+      <Dialog open={open} aria-labelledby="seriesWriteDialogTitle">
+        <DialogTitle id="seriesWriteDialogTitle">{dialogTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            <b>제목</b>과 <b>이미지</b>을 넣어야 정상적인 등록이 가능합니다.
-          </DialogContentText>
+          <DialogContentText>{desc}</DialogContentText>
           <form autoComplete="off">
             <TextField
-              required
+              required={!update}
               name="title"
               label="title"
               placeholder="제목"
-              value={title}
+              value={seriesDialog.title}
               onChange={handleChange}
               variant="outlined"
-              className={classes.validationInput}
+              className={update ? null : classes.validationInput}
             />
             <input
-              required
+              required={!update}
               type="file"
               accept="image/jpg,image/png,image/jpeg,image/gif"
               style={{ display: "none" }}
               id="thumbnailFile"
               name="thumbnailFile"
-              label="thumbnail-file"
+              label="thumbnailFile"
               onChange={handleFileChange}
             />
             <Tooltip title="Select Image">
@@ -91,16 +85,26 @@ function SeriesFormDialog({
             </Tooltip>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label>
-              {thumbnailFile ? thumbnailFile.name : "Select thumbnail image"}
+              {seriesDialog.thumbnailFile
+                ? seriesDialog.thumbnailFile.name
+                : "Select thumbnail image"}
             </label>
-            {previewURL && (
-              <img src={previewURL} width={528} alt="Preview not loaded" />
+            {seriesDialog.previewURL && (
+              <img
+                src={seriesDialog.previewURL}
+                width={528}
+                alt="Preview not loaded"
+              />
             )}
-            {inputError && (
-              <div className={classes.errorMessage}>{inputError}</div>
+            {seriesDialog.inputError && (
+              <div className={errorStyles.defaultError}>
+                {seriesDialog.inputError}
+              </div>
             )}
             {error && (
-              <div className={classes.errorMessage}>전송에 실패하였습니다</div>
+              <div className={errorStyles.defaultError}>
+                전송에 실패하였습니다
+              </div>
             )}
           </form>
         </DialogContent>
@@ -109,7 +113,7 @@ function SeriesFormDialog({
             취소
           </Button>
           <Button onClick={onSubmit} color="primary">
-            등록
+            전송
           </Button>
         </DialogActions>
       </Dialog>

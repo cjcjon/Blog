@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Banner from "@src/components/Banner";
-import SeriesFormDialogContainer from "@src/components/series/SeriesFormDialogContainer";
-import SeriesListContainer from "@src/components/series/SeriesListContainer";
+import Banner from "@components/Banner";
+import SeriesWriteDialogContainer from "@src/components/series/SeriesWriteDialogContainer";
+import SeriesDeleteDialogContainer from "@components/series/SeriesDeleteDialogContainer";
+import SeriesModifyDialogContainer from "@components/series/SeriesModifyDialogContainer";
+import SeriesListContainer from "@components/series/SeriesListContainer";
 import { fetchSeries } from "@redux/sagas/SeriesSaga";
 
 function series() {
@@ -19,7 +21,13 @@ function series() {
       <Banner text="시리즈" />
 
       {/* 시리즈 생성 다이얼로그 */}
-      <SeriesFormDialogContainer />
+      <SeriesWriteDialogContainer />
+
+      {/* 시리즈 삭제 다이얼로그 */}
+      <SeriesDeleteDialogContainer />
+
+      {/* 시리즈 수정 다이얼로그 */}
+      <SeriesModifyDialogContainer />
 
       {/* 시리즈 */}
       <SeriesListContainer />

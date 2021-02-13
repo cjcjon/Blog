@@ -8,14 +8,24 @@ const recommandSeries = () => {
   return configedAxios.get("/api/series/recommand");
 };
 
-const write = (payload) => {
-  return configedAxios.post("/api/series", payload);
+const writeSeries = (formData) => {
+  return configedAxios.post("/api/series", formData);
+};
+
+const deleteSeries = (deleteId) => {
+  return configedAxios.delete(`/api/series/${deleteId}`);
+};
+
+const modifySeries = (formData) => {
+  return configedAxios.patch(`/api/series/${formData.get("id")}`, formData);
 };
 
 const seriesApi = {
   seriesList,
   recommandSeries,
-  write,
+  writeSeries,
+  deleteSeries,
+  modifySeries,
 };
 
 export default seriesApi;

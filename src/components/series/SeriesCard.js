@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import HistoryIcon from "@material-ui/icons/History";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import LinkWrapper from "@components/links/LinkWrapper";
 import { useWordStyles } from "@styles/useful.styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     width: "100%",
     transition: ".3s",
     "&:hover": {
@@ -21,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   cardMedia: {
     height: 0,
     paddingTop: "56.25%", // 16:9
+  },
+  cardMediaButton: {
+    position: "absolute",
+    color: theme.palette.primary.main,
+    top: "8px",
+    right: "4px",
   },
   cardContent: {
     width: "100%",
@@ -36,9 +47,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SeriesCard({ loading, href, title, number, date, recent }) {
+function SeriesCard({
+  loading,
+  href,
+  seriesData,
+  onDeleteClick,
+  onModifyClick,
+}) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = useCallback((event) => {
+    event.preventDefault();
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  const handleMenuClose = useCallback((event) => {
+    event.preventDefault();
+    setAnchorEl(null);
+  }, []);
 
   return (
     <>
@@ -73,26 +102,54 @@ function SeriesCard({ loading, href, title, number, date, recent }) {
         <LinkWrapper href={href}>
           <Card className={classes.root} elevation={2}>
             <CardMedia
-              image="https://source.unsplash.com/random"
+              image={seriesData.thumbnail}
               alt="we don't have image"
               className={classes.cardMedia}
             />
+            <IconButton
+              aria-label="series-card-menu"
+              aria-controls="seriesMenu"
+              aria-haspopup="true"
+              className={classes.cardMediaButton}
+              onClick={handleMenuOpen}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="seriesMenu"
+              anchorEl={anchorEl}
+              keepMounted
+              PaperProps={{
+                style: {
+                  width: "96px",
+                },
+              }}
+              open={open}
+              onClose={handleMenuClose}
+            >
+              <MenuItem value={seriesData.id} onClick={onDeleteClick}>
+                Delete
+              </MenuItem>
+              <MenuItem value={seriesData.id} onClick={onModifyClick}>
+                Modify
+              </MenuItem>
+            </Menu>
             <div className={classes.cardContent}>
               <Typography variant="body2" color="textSecondary">
-                {number}개의 포스트
+                {seriesData.postCount}개의 포스트
               </Typography>
               <Typography gutterBottom variant="h6" className={wordStyles.bold}>
-                {title}
+                {seriesData.title}
               </Typography>
             </div>
             <Divider />
             <Grid container className={classes.cardBottom}>
               <Grid item xs>
                 <Typography variant="body2" color="textSecondary">
-                  {date}
+                  {seriesData.makeDate}
                 </Typography>
               </Grid>
-              {recent && (
+              {seriesData.updated && (
                 <Grid
                   container
                   item
