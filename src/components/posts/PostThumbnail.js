@@ -47,53 +47,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SeriesPostThumbnail({ post }) {
+function PostThumbnail({ post }) {
   const { series, href, imgUrl, number, title, text, date, tags } = post;
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
   return (
-    <>
-      <Grid container className={classes.root} spacing={1}>
-        <Grid item xs={12} className={classes.postMeta}>
-          {date} , {series}
-        </Grid>
-        <Grid item xs={12} sm={3}>
+    <Grid container className={classes.root} spacing={1}>
+      <Grid item xs={12} className={classes.postMeta}>
+        {date} , {series}
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <LinkWrapper href={href}>
+          <CardMedia
+            image={imgUrl}
+            alt={`${series} ${title}`}
+            className={classes.image}
+          />
+        </LinkWrapper>
+      </Grid>
+      <Grid
+        container
+        item
+        direction="column"
+        xs={12}
+        sm={9}
+        spacing={1}
+        className={classes.content}
+      >
+        <Grid item xs>
           <LinkWrapper href={href}>
-            <CardMedia
-              image={imgUrl}
-              alt={`${series} ${title}`}
-              className={classes.image}
-            />
+            <div className={classes.title}>
+              <span className={classes.number}>{number}.</span> {title}
+            </div>
+            <div className={clsx(classes.text, wordStyles.dottedLine)}>
+              {text}
+            </div>
           </LinkWrapper>
         </Grid>
-        <Grid
-          container
-          item
-          direction="column"
-          xs={12}
-          sm={9}
-          spacing={1}
-          className={classes.content}
-        >
-          <Grid item xs>
-            <LinkWrapper href={href}>
-              <div className={classes.title}>
-                <span className={classes.number}>{number}.</span> {title}
-              </div>
-              <div className={clsx(classes.text, wordStyles.dottedLine)}>
-                {text}
-              </div>
-            </LinkWrapper>
-          </Grid>
-          <Grid container item>
-            {/* 스크롤을 위해서 TagList 사용하지 않고 직접 만듦 */}
-            <TagList tags={tags} />
-          </Grid>
+        <Grid container item>
+          <TagList tags={tags} />
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 }
 
-export default React.memo(SeriesPostThumbnail);
+export default React.memo(PostThumbnail);

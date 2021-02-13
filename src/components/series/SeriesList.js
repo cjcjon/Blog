@@ -18,7 +18,7 @@ function SeriesList({ seriesList, loading, onDeleteClick, onModifyClick }) {
           // eslint-disable-next-line react/jsx-indent
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={data.id}>
             <SeriesCard
-              href={`/series/list?id=${data.id}`}
+              href={`/series/${data.id}/posts`}
               seriesData={data}
               onDeleteClick={onDeleteClick}
               onModifyClick={onModifyClick}
