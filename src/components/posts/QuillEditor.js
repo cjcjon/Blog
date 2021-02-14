@@ -48,7 +48,7 @@ function QuillEditor({ title, body, onChangeField }) {
         toolbar: [
           [{ header: "1" }, { header: "2" }],
           ["bold", "italic", "underline", "strike"],
-          ["blockquote", "code-block", "link", "image"],
+          ["blockquote", "code-block", "link", "image", "video"],
           [{ list: "ordered" }, { list: "bullet" }],
           [{ script: "sub" }, { script: "super" }],
           [{ indent: "-1" }, { indent: "+1" }],
