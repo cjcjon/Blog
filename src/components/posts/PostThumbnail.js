@@ -13,12 +13,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: "0",
   },
-  image: {
+  thumbnail: {
     width: "100%",
     height: 0,
     paddingTop: "56.25%", // 16:9
     [theme.breakpoints.up("sm")]: {
-      minHeight: "136px",
+      minHeight: "148px",
       paddingTop: "0",
     },
   },
@@ -31,15 +31,15 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.875rem",
     color: theme.palette.text.secondary,
   },
-  number: {
-    fontStyle: "italic",
-    marginRight: "0.25rem",
-    color: theme.palette.text.secondary,
-  },
   title: {
     fontSize: "1.325rem",
     fontWeight: "bold",
     marginBottom: "8px",
+  },
+  number: {
+    fontStyle: "italic",
+    marginRight: "0.25rem",
+    color: theme.palette.text.secondary,
   },
   text: {
     width: "100%",
@@ -47,22 +47,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostThumbnail({ post }) {
-  const { series, href, imgUrl, number, title, text, date, tags } = post;
+function PostThumbnail({ seriesInfo, href, number, post }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
   return (
     <Grid container className={classes.root} spacing={1}>
-      <Grid item xs={12} className={classes.postMeta}>
-        {date} , {series}
+      <Grid container item xs={12} className={classes.postMeta}>
+        {post.makeDate}
       </Grid>
       <Grid item xs={12} sm={3}>
         <LinkWrapper href={href}>
           <CardMedia
-            image={imgUrl}
-            alt={`${series} ${title}`}
-            className={classes.image}
+            image={seriesInfo.thumbnail}
+            alt="No Thumbnail"
+            className={classes.thumbnail}
           />
         </LinkWrapper>
       </Grid>
@@ -77,16 +76,22 @@ function PostThumbnail({ post }) {
       >
         <Grid item xs>
           <LinkWrapper href={href}>
-            <div className={classes.title}>
-              <span className={classes.number}>{number}.</span> {title}
+            <div className={clsx(classes.title, wordStyles.dottedLine)}>
+              <span className={classes.number}>{number}.</span>&nbsp;
+              {post.title}
             </div>
             <div className={clsx(classes.text, wordStyles.dottedLine)}>
-              {text}
+              {post.body}
+            </div>
+            <div className={classes.postMeta} style={{ marginTop: "0.5rem" }}>
+              <span style={{ margin: "0 0.375rem" }}>•</span>조회수: {post.view}
+              회<span style={{ margin: "0 0.375rem" }}>•</span>좋아요:{" "}
+              {post.likes}
             </div>
           </LinkWrapper>
         </Grid>
-        <Grid container item>
-          <TagList tags={tags} />
+        <Grid item>
+          <TagList tags={post.tags.map((data) => ({ tag: data }))} />
         </Grid>
       </Grid>
     </Grid>
