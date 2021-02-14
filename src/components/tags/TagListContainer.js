@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function TagContainer() {
+function TagListContainer() {
   const tagGroups = useSelector(({ main }) => main.tagGroups);
   const classes = useStyles();
   const wordStyles = useWordStyles();
@@ -32,4 +32,4 @@ function TagContainer() {
   );
 }
 
-export default React.memo(TagContainer);
+export default React.memo(TagListContainer);
