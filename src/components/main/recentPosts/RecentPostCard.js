@@ -5,6 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import LinkWrapper from "@components/links/LinkWrapper";
+import { useWordStyles } from "@styles/useful.styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,14 +16,18 @@ const useStyles = makeStyles((theme) => ({
     margin: "0",
     transition: ".5s",
     boxShadow: "8px 12px 18px rgba(34, 35, 58, 0.2)",
-    "&:hover": {
-      transform: "translateY(3px)",
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.12)",
+    [theme.breakpoints.up("sm")]: {
+      "&:hover": {
+        transform: "translateY(3px)",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.12)",
+      },
     },
   },
   details: {
+    position: "relative",
     flex: "1 0 64%",
     flexDirection: "column",
+    minWidth: "0",
   },
   content: {
     display: "flex",
@@ -63,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
 
 function RecentPostCard({ href, imageUrl, title, body, date }) {
   const classes = useStyles();
+  const wordStyles = useWordStyles();
+
+  // TODO: Grid로 바꾸면 Responsive하게 할 수 있음. 단, 36%, 64% 같은 상세한 길이 표시 불가
 
   return (
     <LinkWrapper href={href}>
@@ -77,9 +85,11 @@ function RecentPostCard({ href, imageUrl, title, body, date }) {
             <Typography variant="overline" className={classes.dateText}>
               {date}
             </Typography>
-            <Typography variant="h6" className={classes.titleText}>
-              {title}
-            </Typography>
+            <div className={classes.titleText}>
+              <Typography variant="h6" className={wordStyles.dottedLine}>
+                {title}
+              </Typography>
+            </div>
             <Typography variant="body2" className={classes.descText}>
               {body}
             </Typography>

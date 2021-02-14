@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Store from "@redux/Store";
 import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
-import TagContainer from "@src/components/tags/TagContainer";
+import TagListContainer from "@src/components/tags/TagListContainer";
 import RecentPostContainer from "@src/components/main/recentPosts/RecentPostContainer";
 import RecommandSeriesContainer from "@src/components/main/recommand/RecommandSeriesContainer";
 import RecommandPostContainer from "@src/components/main/recommand/RecommandPostContainer";
@@ -94,7 +94,7 @@ function index() {
           className={classes.rightContents}
         >
           <Grid item className={sizeStyles.fullWidth}>
-            <TagContainer />
+            <TagListContainer />
           </Grid>
         </Grid>
       </Grid>
