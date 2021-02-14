@@ -1,7 +1,15 @@
 import configedAxios from "../axios";
 
 const seriesList = () => {
-  return configedAxios.get("/api/series");
+  return configedAxios.get("/api/series/list");
+};
+
+const seriesInfo = (seriesId) => {
+  return configedAxios.get(`/api/series/${seriesId}`);
+};
+
+const seriesPostList = (seriesId) => {
+  return configedAxios.get(`/api/series/${seriesId}/posts`);
 };
 
 const recommandSeries = () => {
@@ -22,6 +30,8 @@ const modifySeries = (formData) => {
 
 const seriesApi = {
   seriesList,
+  seriesInfo,
+  seriesPostList,
   recommandSeries,
   writeSeries,
   deleteSeries,
