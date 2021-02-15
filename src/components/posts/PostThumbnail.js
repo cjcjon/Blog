@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: "56.25%", // 16:9
     [theme.breakpoints.up("sm")]: {
-      minHeight: "148px",
+      minHeight: "168px",
       paddingTop: "0",
     },
   },
@@ -56,7 +56,7 @@ function PostThumbnail({ seriesInfo, href, number, post }) {
       <Grid container item xs={12} className={classes.postMeta}>
         {post.makeDate}
       </Grid>
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={4} md={3}>
         <LinkWrapper href={href}>
           <CardMedia
             image={seriesInfo.thumbnail}
@@ -70,7 +70,8 @@ function PostThumbnail({ seriesInfo, href, number, post }) {
         item
         direction="column"
         xs={12}
-        sm={9}
+        sm={8}
+        md={9}
         spacing={1}
         className={classes.content}
       >
