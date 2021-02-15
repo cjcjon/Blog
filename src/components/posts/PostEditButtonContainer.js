@@ -9,9 +9,13 @@ function PostEditButtonContainer() {
   }));
 
   return (
-    <LinkWrapper href={`/posts/write?seriesId=${seriesInfo.id}`}>
-      <PostEditButton />
-    </LinkWrapper>
+    <>
+      {seriesInfo && (
+        <LinkWrapper href={`/posts/write?seriesId=${seriesInfo.id}`}>
+          <PostEditButton />
+        </LinkWrapper>
+      )}
+    </>
   );
 }
 
