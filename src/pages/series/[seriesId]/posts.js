@@ -7,10 +7,6 @@ import PostListContainer from "@components/posts/PostListContainer";
 import { fetchPosts } from "@redux/sagas/PostSaga";
 
 function posts({ title }) {
-  // getServerSideProps 같은 SSR 함수에서 dispatch 하고
-  // redux에 저장된 Object의 내부 데이터를 참조할 시 에러 발생
-  // 최대한 객체를 건네주는 쪽으로 만든다
-
   return (
     <>
       {/* 시리즈 제목 보여주는 배너 */}
@@ -35,13 +31,12 @@ export const getServerSideProps = Store.getServerSideProps(
     await store.sagaTask.toPromise();
 
     // 시리즈 정보가 없을경우 404 반환
-    if (!store.getState().post.seriesInfo) {
+    const state = store.getState();
+    if (!state.post.seriesInfo) {
       return { notFound: true };
     }
 
-    return {
-      props: { title: store.getState().post.seriesInfo.title },
-    };
+    return { props: { title: state.post.seriesInfo.title } };
   },
 );
 
