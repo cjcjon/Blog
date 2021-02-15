@@ -16,18 +16,19 @@ function SeriesWriteDialogContainer() {
   const dispatch = useDispatch();
   const { writeDialog, nextLink, error } = useSelector(({ series }) => ({
     writeDialog: series.seriesDialog,
-    nextLink: series.nextLink,
+    nextLink: series.writeLink,
     error: series.error,
   }));
   const writeLoading = useSelector(({ loading }) => loading[WRITE_SERIES]);
 
   useEffect(() => {
+    // 새로운 링크를 받아왔으면 링크로 이동
     if (nextLink.href !== "") {
-      console.log("next Link changed");
-      console.log(nextLink);
-
-      // TODO: 전송받은 링크로 이동
-      router.reload();
+      if (router.pathname === nextLink.href) {
+        router.reload();
+      } else {
+        router.push(nextLink.href);
+      }
     }
   }, [dispatch, nextLink]);
 

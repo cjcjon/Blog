@@ -149,7 +149,8 @@ const initialState = {
     previewURL: null,
     inputError: null,
   },
-  nextLink: { rel: "", href: "", method: "" },
+  writeLink: { rel: "", href: "", method: "" },
+  modifyLink: { rel: "", href: "", method: "" },
   error: null,
 };
 
@@ -170,7 +171,8 @@ const seriesReducer = handleActions(
     [INITIALIZE_SERIES_DIALOG]: (state) => ({
       ...state,
       seriesDialog: initialState.seriesDialog,
-      nextLink: initialState.nextLink,
+      modifyLink: initialState.modifyLink,
+      writeLink: initialState.writeLink,
     }),
     [CHANGE_SERIES_DIALOG_FIELD]: (state, { payload: { key, value } }) =>
       produce(state, (draft) => {
@@ -179,7 +181,7 @@ const seriesReducer = handleActions(
       }),
     [WRITE_SERIES_SUCCESS]: (state, { payload }) => ({
       ...state,
-      nextLink: payload,
+      writeLink: payload,
       error: null,
     }),
     [WRITE_SERIES_FAILURE]: (state, { payload }) => ({
@@ -196,7 +198,7 @@ const seriesReducer = handleActions(
     }),
     [MODIFY_SERIES_SUCCESS]: (state, { payload }) => ({
       ...state,
-      nextLink: payload,
+      modifyLink: payload,
       error: null,
     }),
     [MODIFY_SERIES_FAILURE]: (state, { payload }) => ({

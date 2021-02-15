@@ -14,17 +14,19 @@ function SeriesModifyDialogContainer() {
   const dispatch = useDispatch();
   const { modifyDialog, nextLink, error } = useSelector(({ series }) => ({
     modifyDialog: series.seriesDialog,
-    nextLink: series.nextLink,
+    nextLink: series.modifyLink,
     error: series.error,
   }));
   const modifyLoading = useSelector(({ loading }) => loading[MODIFY_SERIES]);
 
   useEffect(() => {
+    // 새로운 링크를 받아왔으면 링크로 이동
     if (nextLink.href !== "") {
-      console.log("Next Link changed");
-
-      // TODO: 받아온 페이지로 이동
-      router.reload();
+      if (router.pathname === nextLink.href) {
+        router.reload();
+      } else {
+        router.push(nextLink.href);
+      }
     }
   }, [dispatch, nextLink]);
 
