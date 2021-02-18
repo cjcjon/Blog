@@ -12,7 +12,7 @@ function RecommandSeriesList({ recommandSeries }) {
         recommandSeries.map((data) => (
           <Box className={columnBoxStyle.column} key={data.id}>
             <ColumnPost
-              href={`/series/list/${data.id}`}
+              href={`/series/${data.id}/posts`}
               title={data.title}
               subText={data.lastPostDate}
             />

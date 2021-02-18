@@ -2,8 +2,8 @@ import React from "react";
 import { END } from "redux-saga";
 import Store from "@redux/Store";
 import Banner from "@components/Banner";
-import PostEditButtonContainer from "@components/posts/PostEditButtonContainer";
-import PostListContainer from "@components/posts/PostListContainer";
+import PostEditButtonContainer from "@components/posts/write/PostEditButtonContainer";
+import PostListContainer from "@components/posts/read/PostListContainer";
 import { fetchPosts } from "@redux/sagas/PostSaga";
 
 function posts({ title }) {

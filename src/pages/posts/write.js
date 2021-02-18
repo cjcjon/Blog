@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
-import QuillEditorContainer from "@components/posts/QuillEditorContainer";
-import TagWriterContainer from "@components/posts/TagWriterContainer";
-import WritePostButtonsContainer from "@components/posts/WritePostButtonsContainer";
+import QuillEditorContainer from "@components/posts/write/QuillEditorContainer";
+import TagWriterContainer from "@components/posts/write/TagWriterContainer";
+import WritePostButtonsContainer from "@components/posts/write/WritePostButtonsContainer";
 
 function write() {
   const router = useRouter();

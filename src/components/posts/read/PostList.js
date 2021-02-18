@@ -3,7 +3,7 @@ import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
 import PostThumbnail from "./PostThumbnail";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     width: "100%",
   },
