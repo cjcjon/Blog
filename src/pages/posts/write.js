@@ -1,14 +1,17 @@
 import React from "react";
+import { useRouter } from "next/router";
 import QuillEditorContainer from "@components/posts/QuillEditorContainer";
 import TagWriterContainer from "@components/posts/TagWriterContainer";
-import WritePostButtons from "@components/posts/WritePostButtons";
+import WritePostButtonsContainer from "@components/posts/WritePostButtonsContainer";
 
 function write() {
+  const router = useRouter();
+
   return (
     <div>
       <QuillEditorContainer />
       <TagWriterContainer />
-      <WritePostButtons />
+      <WritePostButtonsContainer seriesId={router.query.seriesId} />
     </div>
   );
 }
