@@ -1,0 +1,53 @@
+import React from "react";
+import clsx from "clsx";
+import "quill/dist/quill.snow.css";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import TagList from "@components/tags/TagList";
+import PostViewerAccordion from "./PostViewerAccordion";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    marginBottom: "0.5rem",
+  },
+  bodyContent: {
+    marginBottom: "1.5rem",
+    padding: "0 !important",
+  },
+  accordion: {
+    marginBottom: "1.5rem",
+  },
+  iconText: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+}));
+
+function PostViewerContent({ seriesInfo, postList, postInfo }) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <div
+        className={clsx("ql-editor", classes.bodyContent)}
+        dangerouslySetInnerHTML={{ __html: postInfo.body }}
+      />
+      <div className={classes.accordion}>
+        <PostViewerAccordion seriesInfo={seriesInfo} postList={postList} />
+      </div>
+      <div>
+        <div className={classes.iconText}>
+          <LocalOfferIcon />
+          <Typography variant="subtitle2" style={{ marginLeft: "0.375rem" }}>
+            <b>태그목록</b>
+          </Typography>
+        </div>
+        <TagList tags={postInfo.tags.map((data) => ({ tag: data }))} />
+      </div>
+    </div>
+  );
+}
+
+export default React.memo(PostViewerContent);

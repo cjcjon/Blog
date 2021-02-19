@@ -1,25 +1,58 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { END } from "redux-saga";
 import Store from "@redux/Store";
-import { useRouter } from "next/router";
+import Divider from "@material-ui/core/Divider";
+import PostLayout from "@components/layout/PostLayout";
+import PostViewerHeadContainer from "@components/posts/read/PostViewerHeadContainer";
+import PostViewerContentContainer from "@components/posts/read/PostViewerContentContainer";
+import { readPost } from "@redux/sagas/PostSaga";
 
 function PostViewer() {
-  const router = useRouter();
-  const { postId } = router.query;
+  const error = useSelector(({ post }) => post.error);
 
-  return <div></div>;
+  // 에러 발생시
+  if (error) {
+    return (
+      <>
+        {error.status ? (
+          <div>
+            {error.status}
+            <br />
+            {error.message}
+          </div>
+        ) : (
+          <div>에러가 발생했습니다</div>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <PostLayout>
+      <PostViewerHeadContainer />
+      <PostViewerContentContainer />
+      <Divider />
+    </PostLayout>
+  );
 }
 
-// export const getServerSideProps = Store.getServerSideProps(
-//   async ({ store, params }) => {
-//     const { postId } = params;
+export const getServerSideProps = Store.getServerSideProps(
+  async ({ store, params }) => {
+    const { postId } = params;
 
-//     if (!state.post.seriesInfo) {
-//       return { notFound: true };
-//     }
+    // 포스트 정보 불러오기
+    store.dispatch(readPost(postId));
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
 
-//     return { props: { title: state.post.seriesInfo.title } };
-//   },
-// );
+    const state = store.getState();
+    if (state.post.error && state.post.error.status === 404) {
+      return { notFound: true };
+    }
+
+    return {};
+  },
+);
 
 export default React.memo(PostViewer);

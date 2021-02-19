@@ -23,9 +23,12 @@ const deleteImage = (imageName) => {
   return configedAxios.delete(`/api/post/image/${imageName}`);
 };
 
-// title, body, tags, seriesId
 const writePost = (formData) => {
   return configedAxios.post("/api/post", formData);
+};
+
+const readPost = (postId) => {
+  return configedAxios.get(`/api/post/${postId}`);
 };
 
 const postApi = {
@@ -35,6 +38,7 @@ const postApi = {
   uploadImage,
   deleteImage,
   writePost,
+  readPost,
 };
 
 export default postApi;

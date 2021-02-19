@@ -6,7 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import { makeStyles } from "@material-ui/core/styles";
 import { useWordStyles } from "@styles/useful.styles";
-import TagList from "./TagList";
+import TagList from "../../tags/TagList";
 
 const useStyles = makeStyles(() => ({
   root: {

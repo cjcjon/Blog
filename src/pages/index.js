@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Store from "@redux/Store";
 import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
-import TagListContainer from "@src/components/tags/TagListContainer";
+import TagListContainer from "@src/components/main/tags/TagListContainer";
 import RecentPostContainer from "@src/components/main/recentPosts/RecentPostContainer";
 import RecommandSeriesContainer from "@src/components/main/recommand/RecommandSeriesContainer";
 import RecommandPostContainer from "@src/components/main/recommand/RecommandPostContainer";
