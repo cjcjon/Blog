@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import "quill/dist/quill.snow.css";
+import "highlight.js/styles/atom-one-dark.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
@@ -9,6 +10,7 @@ import PostViewerAccordion from "./PostViewerAccordion";
 
 const useStyles = makeStyles(() => ({
   root: {
+    marginTop: "2rem",
     marginBottom: "0.5rem",
   },
   bodyContent: {
@@ -25,17 +27,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function PostViewerContent({ seriesInfo, postList, postInfo }) {
+function PostViewerContent({ lectureInfo, postList, postInfo }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <div
-        className={clsx("ql-editor", classes.bodyContent)}
-        dangerouslySetInnerHTML={{ __html: postInfo.body }}
-      />
+      <div className={clsx("ql-snow")}>
+        <div
+          className={clsx("ql-editor", classes.bodyContent)}
+          dangerouslySetInnerHTML={{ __html: postInfo.body }}
+        />
+      </div>
       <div className={classes.accordion}>
-        <PostViewerAccordion seriesInfo={seriesInfo} postList={postList} />
+        <PostViewerAccordion lectureInfo={lectureInfo} postList={postList} />
       </div>
       <div>
         <div className={classes.iconText}>

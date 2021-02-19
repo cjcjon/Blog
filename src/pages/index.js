@@ -5,10 +5,10 @@ import Store from "@redux/Store";
 import { loadInitialData } from "@redux/sagas/MainSaga";
 import Banner from "@src/components/Banner";
 import TagListContainer from "@src/components/main/tags/TagListContainer";
-import RecentPostContainer from "@src/components/main/recentPosts/RecentPostContainer";
-import RecommandSeriesContainer from "@src/components/main/recommand/RecommandSeriesContainer";
-import RecommandPostContainer from "@src/components/main/recommand/RecommandPostContainer";
-import MostViewContainer from "@src/components/main/mostView/MostViewContainer";
+import RecentPostContainer from "@src/components/main/recentPosts/RecentPostsContainer";
+import RecommandLecturesContainer from "@src/components/main/recommand/RecommandLecturesContainer";
+import RecommandPostsContainer from "@src/components/main/recommand/RecommandPostsContainer";
+import MostViewsContainer from "@src/components/main/mostViews/MostViewsContainer";
 import DailyVisitPanel from "@components/main/dailyVisits/DailyVisitPanel";
 import RecentCommentPanel from "@components/main/recentComments/RecentCommentPanel";
 import { useSizeStyles } from "@styles/useful.styles";
@@ -50,12 +50,12 @@ function index() {
 
       {/* 
         표시될 하부 컴포넌트들
-        1. About (끝)
-        2. Tags (끝)
-        3. Most viewed pages
-        4. Recent comments
-        5. Daily visitors diagram
-        6. Social (해야함)
+        1. 추천 강의 목록
+        2. 추천 포스트 목록
+        3. 조회수 많은 포스트 목록
+        4. 일일 방문자
+        5. 최신 댓글 목록
+        6. 태그 목록
       */}
       <Grid container spacing={2} className={classes.contentsRoot}>
         <Grid
@@ -67,13 +67,13 @@ function index() {
           className={classes.leftContents}
         >
           <Grid item xs={12} sm={6}>
-            <RecommandSeriesContainer />
+            <RecommandLecturesContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <RecommandPostContainer />
+            <RecommandPostsContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <MostViewContainer />
+            <MostViewsContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
             <DailyVisitPanel />

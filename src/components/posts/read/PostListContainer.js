@@ -2,14 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PostList from "./PostList";
 
-// posts: { id, title, body, likes, view, tags, makeDate, seriesId }
 function PostListContainer() {
-  const { postList, seriesInfo } = useSelector(({ post }) => ({
+  const { postList, lectureInfo } = useSelector(({ post }) => ({
     postList: post.postList,
-    seriesInfo: post.seriesInfo,
+    lectureInfo: post.lectureInfo,
   }));
 
-  return <PostList seriesInfo={seriesInfo} postList={postList} />;
+  return <PostList lectureInfo={lectureInfo} postList={postList} />;
 }
 
 export default React.memo(PostListContainer);

@@ -3,23 +3,23 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import {
-  initializeSeriesDialog,
-  changeSeriesDialogField,
-  writeSeries,
-  WRITE_SERIES,
-} from "@redux/sagas/SeriesSaga";
+  initializeLectureDialog,
+  changeLectureDialogField,
+  writeLecture,
+  WRITE_LECTURE,
+} from "@redux/sagas/LectureSaga";
 import LoadingBackdrop from "@components/commons/LoadingBackdrop";
-import SeriesFormDialog from "./SeriesFormDialog";
+import LectureFormDialog from "./LectureFormDialog";
 
-function SeriesWriteDialogContainer() {
+function LectureWriteDialogContainer() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { writeDialog, nextLink, error } = useSelector(({ series }) => ({
-    writeDialog: series.seriesDialog,
-    nextLink: series.writeLink,
-    error: series.error,
+  const { writeDialog, nextLink, error } = useSelector(({ lecture }) => ({
+    writeDialog: lecture.lectureDialog,
+    nextLink: lecture.writeLink,
+    error: lecture.error,
   }));
-  const writeLoading = useSelector(({ loading }) => loading[WRITE_SERIES]);
+  const writeLoading = useSelector(({ loading }) => loading[WRITE_LECTURE]);
 
   useEffect(() => {
     // 새로운 링크를 받아왔으면 링크로 이동
@@ -34,20 +34,20 @@ function SeriesWriteDialogContainer() {
 
   // Dialog 열기
   const handleOpen = useCallback(() => {
-    dispatch(initializeSeriesDialog());
-    dispatch(changeSeriesDialogField({ key: "open", value: "write" }));
+    dispatch(initializeLectureDialog());
+    dispatch(changeLectureDialogField({ key: "open", value: "write" }));
   }, [dispatch]);
 
   // Dialog 끄기
   const handleClose = useCallback(() => {
-    dispatch(changeSeriesDialogField({ key: "open", value: false }));
+    dispatch(changeLectureDialogField({ key: "open", value: false }));
   }, [dispatch]);
 
   // Dialog 이름으로 값 변경
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      dispatch(changeSeriesDialogField({ key: name, value }));
+      dispatch(changeLectureDialogField({ key: name, value }));
     },
     [dispatch],
   );
@@ -61,13 +61,13 @@ function SeriesWriteDialogContainer() {
 
       // 파일 redux 저장
       dispatch(
-        changeSeriesDialogField({ key: "thumbnailFile", value: uploadedFile }),
+        changeLectureDialogField({ key: "thumbnailFile", value: uploadedFile }),
       );
 
       // preview redux 저장
       reader.onloadend = () => {
         dispatch(
-          changeSeriesDialogField({ key: "previewURL", value: reader.result }),
+          changeLectureDialogField({ key: "previewURL", value: reader.result }),
         );
       };
 
@@ -83,7 +83,7 @@ function SeriesWriteDialogContainer() {
 
       if (writeDialog.title === "") {
         dispatch(
-          changeSeriesDialogField({
+          changeLectureDialogField({
             key: "inputError",
             value: "제목을 입력하세요",
           }),
@@ -93,7 +93,7 @@ function SeriesWriteDialogContainer() {
 
       if (writeDialog.thumbnailFile === null) {
         dispatch(
-          changeSeriesDialogField({
+          changeLectureDialogField({
             key: "inputError",
             value: "썸네일 이미지를 등록하세요",
           }),
@@ -107,7 +107,7 @@ function SeriesWriteDialogContainer() {
       formData.append("thumbnailFile", writeDialog.thumbnailFile);
 
       // 전송
-      dispatch(writeSeries(formData));
+      dispatch(writeLecture(formData));
     },
     [dispatch, writeDialog.title, writeDialog.thumbnailFile],
   );
@@ -115,14 +115,14 @@ function SeriesWriteDialogContainer() {
   return (
     <div style={{ marginBottom: "8px" }}>
       <Button variant="outlined" color="primary" onClick={handleOpen}>
-        시리즈 추가
+        강의 추가
       </Button>
       <LoadingBackdrop open={writeLoading} />
-      <SeriesFormDialog
+      <LectureFormDialog
         open={writeDialog.open === "write"}
-        dialogTitle="Manage Series"
+        dialogTitle="강의 추가"
         desc="제목과 이미지를 넣어야 정상적인 등록이 가능합니다."
-        seriesDialog={writeDialog}
+        lectureDialog={writeDialog}
         handleClose={handleClose}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
@@ -133,4 +133,4 @@ function SeriesWriteDialogContainer() {
   );
 }
 
-export default React.memo(SeriesWriteDialogContainer);
+export default React.memo(LectureWriteDialogContainer);

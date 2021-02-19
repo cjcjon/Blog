@@ -5,7 +5,7 @@ import { useColumnBoxStyles } from "@styles/columnBox.style";
 import MostViewTitle from "./MostViewTitle";
 import MostViewList from "./MostViewList";
 
-function MostViewContainer() {
+function MostViewsContainer() {
   const mostViews = useSelector(({ main }) => main.mostViewPosts);
   const columnBoxStyles = useColumnBoxStyles();
 
@@ -17,4 +17,4 @@ function MostViewContainer() {
   );
 }
 
-export default React.memo(MostViewContainer);
+export default React.memo(MostViewsContainer);

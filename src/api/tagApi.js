@@ -1,11 +1,11 @@
 import configedAxios from "../axios";
 
-const groupTag = () => {
-  return configedAxios.get("/api/tag/group");
+const groupTags = () => {
+  return configedAxios.get("/api/tags/group");
 };
 
 const tagApi = {
-  groupTag,
+  groupTags,
 };
 
 export default tagApi;

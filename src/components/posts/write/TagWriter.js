@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: "bold",
     fontSize: "1.875rem",
-    marginBottom: "1rem",
+    marginBottom: "0.125rem",
   },
   form: {
     display: "flex",

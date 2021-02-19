@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SeriesFormDialog({
+function LectureFormDialog({
   update,
   open,
   dialogTitle,
   desc,
-  seriesDialog,
+  lectureDialog,
   handleClose,
   handleChange,
   handleFileChange,
@@ -46,8 +46,8 @@ function SeriesFormDialog({
 
   return (
     <div>
-      <Dialog open={open} aria-labelledby="seriesWriteDialogTitle">
-        <DialogTitle id="seriesWriteDialogTitle">{dialogTitle}</DialogTitle>
+      <Dialog open={open} aria-labelledby="lectureWriteDialogTitle">
+        <DialogTitle id="lectureWriteDialogTitle">{dialogTitle}</DialogTitle>
         <DialogContent>
           <DialogContentText>{desc}</DialogContentText>
           <form autoComplete="off">
@@ -56,7 +56,7 @@ function SeriesFormDialog({
               name="title"
               label="title"
               placeholder="제목"
-              value={seriesDialog.title}
+              value={lectureDialog.title}
               onChange={handleChange}
               variant="outlined"
               className={update ? null : classes.validationInput}
@@ -85,20 +85,20 @@ function SeriesFormDialog({
             </Tooltip>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label>
-              {seriesDialog.thumbnailFile
-                ? seriesDialog.thumbnailFile.name
+              {lectureDialog.thumbnailFile
+                ? lectureDialog.thumbnailFile.name
                 : "Select thumbnail image"}
             </label>
-            {seriesDialog.previewURL && (
+            {lectureDialog.previewURL && (
               <img
-                src={seriesDialog.previewURL}
+                src={lectureDialog.previewURL}
                 width={528}
                 alt="Preview not loaded"
               />
             )}
-            {seriesDialog.inputError && (
+            {lectureDialog.inputError && (
               <div className={errorStyles.defaultError}>
-                {seriesDialog.inputError}
+                {lectureDialog.inputError}
               </div>
             )}
             {error && (
@@ -121,4 +121,4 @@ function SeriesFormDialog({
   );
 }
 
-export default React.memo(SeriesFormDialog);
+export default React.memo(LectureFormDialog);

@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import PostLayout from "@components/layout/PostLayout";
 import QuillEditorContainer from "@components/posts/write/QuillEditorContainer";
 import TagWriterContainer from "@components/posts/write/TagWriterContainer";
 import WritePostButtonsContainer from "@components/posts/write/WritePostButtonsContainer";
@@ -8,11 +9,11 @@ function write() {
   const router = useRouter();
 
   return (
-    <div>
+    <PostLayout>
       <QuillEditorContainer />
       <TagWriterContainer />
-      <WritePostButtonsContainer seriesId={router.query.seriesId} />
-    </div>
+      <WritePostButtonsContainer lectureId={router.query.lectureId} />
+    </PostLayout>
   );
 }
 

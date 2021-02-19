@@ -3,16 +3,16 @@ import Box from "@material-ui/core/Box";
 import ColumnPost from "@components/main/ColumnPost";
 import { useColumnBoxStyles } from "@styles/columnBox.style";
 
-function RecommandSeriesList({ recommandSeries }) {
+function RecommandLectureList({ recommandLectures }) {
   const columnBoxStyle = useColumnBoxStyles();
 
   return (
     <div>
-      {recommandSeries &&
-        recommandSeries.map((data) => (
+      {recommandLectures &&
+        recommandLectures.map((data) => (
           <Box className={columnBoxStyle.column} key={data.id}>
             <ColumnPost
-              href={`/series/${data.id}/posts`}
+              href={`/lectures/${data.id}/posts`}
               title={data.title}
               subText={data.lastPostDate}
             />
@@ -22,4 +22,4 @@ function RecommandSeriesList({ recommandSeries }) {
   );
 }
 
-export default React.memo(RecommandSeriesList);
+export default React.memo(RecommandLectureList);

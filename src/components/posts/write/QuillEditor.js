@@ -4,6 +4,7 @@ import "quill/dist/quill.snow.css";
 import "highlight.js/styles/atom-one-dark.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import PostLayout from "@components/layout/PostLayout";
 import postApi from "@src/api/postApi";
 
 // SSR 이라서 import 불가
@@ -18,8 +19,7 @@ hljs.configure({
 
 const useStyles = makeStyles(() => ({
   root: {
-    paddingTop: "5rem",
-    paddingBottom: "2rem",
+    marginBottom: "1.5rem",
   },
   titleField: {
     marginBottom: "2rem",
@@ -103,7 +103,7 @@ function QuillEditor({ title, body, onChangeField }) {
           [{ indent: "-1" }, { indent: "+1" }],
           [{ direction: "rtl" }],
           [{ size: ["small", false, "large", "huge"] }],
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ header: [1, 2, 3, false] }],
           [{ color: [] }, { background: [] }],
           [{ font: [] }],
           [{ align: [] }],

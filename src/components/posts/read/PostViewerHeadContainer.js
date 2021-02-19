@@ -3,23 +3,11 @@ import { useSelector } from "react-redux";
 import PostViewerHead from "./PostViewerHead";
 
 function PostViewerHeadContainer() {
-  const { postList, seriesInfo, postInfo } = useSelector(({ post }) => ({
-    postList: post.postList,
-    seriesInfo: post.seriesInfo,
+  const { postInfo } = useSelector(({ post }) => ({
     postInfo: post.postInfo,
   }));
 
-  return (
-    <>
-      {postList && seriesInfo && postInfo && (
-        <PostViewerHead
-          post={postInfo}
-          postList={postList}
-          seriesInfo={seriesInfo}
-        />
-      )}
-    </>
-  );
+  return <>{postInfo && <PostViewerHead post={postInfo} />}</>;
 }
 
 export default React.memo(PostViewerHeadContainer);

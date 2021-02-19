@@ -5,7 +5,7 @@ import { useErrorStyles } from "@styles/useful.styles";
 
 const useStyles = makeStyles(() => ({
   buttonBlock: {
-    marginTop: "1.625rem",
+    marginTop: "1rem",
     marginBottom: "2rem",
     "& * + *": {
       marginLeft: "1rem",

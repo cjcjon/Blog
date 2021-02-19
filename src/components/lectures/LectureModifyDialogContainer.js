@@ -2,22 +2,22 @@ import React, { useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  changeSeriesDialogField,
-  modifySeries,
-  MODIFY_SERIES,
-} from "@redux/sagas/SeriesSaga";
+  changeLectureDialogField,
+  modifyLecture,
+  MODIFY_LECTURE,
+} from "@redux/sagas/LectureSaga";
 import LoadingBackdrop from "@components/commons/LoadingBackdrop";
-import SeriesFormDialog from "./SeriesFormDialog";
+import LectureFormDialog from "./LectureFormDialog";
 
-function SeriesModifyDialogContainer() {
+function LectureModifyDialogContainer() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { modifyDialog, nextLink, error } = useSelector(({ series }) => ({
-    modifyDialog: series.seriesDialog,
-    nextLink: series.modifyLink,
-    error: series.error,
+  const { modifyDialog, nextLink, error } = useSelector(({ lecture }) => ({
+    modifyDialog: lecture.lectureDialog,
+    nextLink: lecture.modifyLink,
+    error: lecture.error,
   }));
-  const modifyLoading = useSelector(({ loading }) => loading[MODIFY_SERIES]);
+  const modifyLoading = useSelector(({ loading }) => loading[MODIFY_LECTURE]);
 
   useEffect(() => {
     // 새로운 링크를 받아왔으면 링크로 이동
@@ -32,14 +32,14 @@ function SeriesModifyDialogContainer() {
 
   // Dialog 끄기
   const handleClose = useCallback(() => {
-    dispatch(changeSeriesDialogField({ key: "open", value: false }));
+    dispatch(changeLectureDialogField({ key: "open", value: false }));
   }, [dispatch]);
 
   // Dialog 이름으로 값 변경
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      dispatch(changeSeriesDialogField({ key: name, value }));
+      dispatch(changeLectureDialogField({ key: name, value }));
     },
     [dispatch],
   );
@@ -53,13 +53,13 @@ function SeriesModifyDialogContainer() {
 
       // 파일 redux 저장
       dispatch(
-        changeSeriesDialogField({ key: "thumbnailFile", value: uploadedFile }),
+        changeLectureDialogField({ key: "thumbnailFile", value: uploadedFile }),
       );
 
       // preview redux 저장
       reader.onloadend = () => {
         dispatch(
-          changeSeriesDialogField({ key: "previewURL", value: reader.result }),
+          changeLectureDialogField({ key: "previewURL", value: reader.result }),
         );
       };
 
@@ -78,7 +78,7 @@ function SeriesModifyDialogContainer() {
         modifyDialog.thumbnailFile === null
       ) {
         dispatch(
-          changeSeriesDialogField({
+          changeLectureDialogField({
             key: "inputError",
             value: "제목과 썸네일 하나는 입력해야합니다",
           }),
@@ -97,19 +97,19 @@ function SeriesModifyDialogContainer() {
       }
 
       // 전송
-      dispatch(modifySeries(formData));
+      dispatch(modifyLecture(formData));
     },
     [dispatch, modifyDialog.id, modifyDialog.title, modifyDialog.thumbnailFile],
   );
 
   return (
     <>
-      <SeriesFormDialog
+      <LectureFormDialog
         update
         open={modifyDialog.open === "modify"}
-        dialogTitle="Change Series"
+        dialogTitle="강의 수정"
         desc="변경하고 싶은 부분을 변경하세요"
-        seriesDialog={modifyDialog}
+        lectureDialog={modifyDialog}
         handleClose={handleClose}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
@@ -121,4 +121,4 @@ function SeriesModifyDialogContainer() {
   );
 }
 
-export default React.memo(SeriesModifyDialogContainer);
+export default React.memo(LectureModifyDialogContainer);

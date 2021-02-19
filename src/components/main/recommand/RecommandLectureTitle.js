@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function RecommandSeriesTitle({ title, subTitle }) {
+function RecommandLectureTitle({ title, subTitle }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -44,4 +44,4 @@ function RecommandSeriesTitle({ title, subTitle }) {
   );
 }
 
-export default React.memo(RecommandSeriesTitle);
+export default React.memo(RecommandLectureTitle);

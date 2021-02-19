@@ -1,16 +1,11 @@
 import React, { useState, useCallback } from "react";
-import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ArrowLeftRoundedIcon from "@material-ui/icons/ArrowLeftRounded";
-import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
 import LinkWrapper from "@components/links/LinkWrapper";
 import LinkHighlightWrapper from "@components/links/LinkHighlightWrapper";
 
@@ -23,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 !important",
     padding: "0 0.5rem",
   },
-  seriesTitle: {
+  lectureTitle: {
     fontWeight: "bold",
     "&:hover": {
       color: theme.palette.primary.main,
@@ -46,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostViewerAccordion({ seriesInfo, postList }) {
+function PostViewerAccordion({ lectureInfo, postList }) {
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState(false);
@@ -69,12 +64,12 @@ function PostViewerAccordion({ seriesInfo, postList }) {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="seriesPostList"
-          id="seriesPostHeader"
+          aria-controls="lecturePostList"
+          id="lecturePostHeader"
         >
-          <LinkWrapper href={`/series/${seriesInfo.id}/posts`}>
-            <Typography variant="h6" className={classes.seriesTitle}>
-              {seriesInfo.title} 목차
+          <LinkWrapper href={`/lectures/${lectureInfo.id}/posts`}>
+            <Typography variant="h6" className={classes.lectureTitle}>
+              {lectureInfo.title} 목차
             </Typography>
           </LinkWrapper>
         </AccordionSummary>

@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function RecentPostContainer() {
+function RecentPostsContainer() {
   const recentPosts = useSelector(({ main }) => main.recentPosts);
   const classes = useStyles();
 
@@ -23,4 +23,4 @@ function RecentPostContainer() {
   );
 }
 
-export default React.memo(RecentPostContainer);
+export default React.memo(RecentPostsContainer);

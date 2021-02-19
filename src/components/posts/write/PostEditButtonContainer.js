@@ -4,14 +4,14 @@ import LinkWrapper from "@components/links/LinkWrapper";
 import PostEditButton from "./PostEditButton";
 
 function PostEditButtonContainer() {
-  const { seriesInfo } = useSelector(({ post }) => ({
-    seriesInfo: post.seriesInfo,
+  const { lectureInfo } = useSelector(({ post }) => ({
+    lectureInfo: post.lectureInfo,
   }));
 
   return (
     <>
-      {seriesInfo && (
-        <LinkWrapper href={`/posts/write?seriesId=${seriesInfo.id}`}>
+      {lectureInfo && (
+        <LinkWrapper href={`/posts/write?lectureId=${lectureInfo.id}`}>
           <PostEditButton />
         </LinkWrapper>
       )}

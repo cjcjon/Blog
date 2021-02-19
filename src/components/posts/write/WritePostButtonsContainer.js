@@ -5,7 +5,7 @@ import { WRITE, write } from "@redux/sagas/WritePostSaga";
 import LoadingBackdrop from "@components/commons/LoadingBackdrop";
 import WritePostButtons from "./WritePostButtons";
 
-function WritePostButtonsContainer({ seriesId }) {
+function WritePostButtonsContainer({ lectureId }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const { title, body, tags, writeLink, error } = useSelector(
@@ -24,10 +24,10 @@ function WritePostButtonsContainer({ seriesId }) {
     formData.append("title", title);
     formData.append("body", body);
     formData.append("tags", JSON.stringify(tags));
-    formData.append("seriesId", seriesId);
+    formData.append("lectureId", lectureId);
 
     dispatch(write(formData));
-  }, [title, body, tags, seriesId]);
+  }, [title, body, tags, lectureId]);
 
   const onCancel = useCallback(() => {
     router.back();

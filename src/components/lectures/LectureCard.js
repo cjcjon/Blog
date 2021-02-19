@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SeriesCard({
+function LectureCard({
   loading,
   href,
-  seriesData,
+  lectureData,
   onDeleteClick,
   onModifyClick,
 }) {
@@ -102,13 +102,13 @@ function SeriesCard({
         <LinkWrapper href={href}>
           <Card className={classes.root} elevation={2}>
             <CardMedia
-              image={seriesData.thumbnail}
+              image={lectureData.thumbnail}
               alt="we don't have image"
               className={classes.cardMedia}
             />
             <IconButton
-              aria-label="series-card-menu"
-              aria-controls="seriesMenu"
+              aria-label="lecture-card-menu"
+              aria-controls="lectureMenu"
               aria-haspopup="true"
               className={classes.cardMediaButton}
               onClick={handleMenuOpen}
@@ -116,7 +116,7 @@ function SeriesCard({
               <MoreVertIcon />
             </IconButton>
             <Menu
-              id="seriesMenu"
+              id="lectureMenu"
               anchorEl={anchorEl}
               keepMounted
               PaperProps={{
@@ -127,29 +127,29 @@ function SeriesCard({
               open={open}
               onClose={handleMenuClose}
             >
-              <MenuItem value={seriesData.id} onClick={onDeleteClick}>
+              <MenuItem value={lectureData.id} onClick={onDeleteClick}>
                 Delete
               </MenuItem>
-              <MenuItem value={seriesData.id} onClick={onModifyClick}>
+              <MenuItem value={lectureData.id} onClick={onModifyClick}>
                 Modify
               </MenuItem>
             </Menu>
             <div className={classes.cardContent}>
               <Typography variant="body2" color="textSecondary">
-                {seriesData.postCount}개의 포스트
+                {lectureData.postCount}개의 포스트
               </Typography>
               <Typography gutterBottom variant="h6" className={wordStyles.bold}>
-                {seriesData.title}
+                {lectureData.title}
               </Typography>
             </div>
             <Divider />
             <Grid container className={classes.cardBottom}>
               <Grid item xs>
                 <Typography variant="body2" color="textSecondary">
-                  {seriesData.makeDate}
+                  {lectureData.makeDate}
                 </Typography>
               </Grid>
-              {seriesData.updated && (
+              {lectureData.updated && (
                 <Grid
                   container
                   item
@@ -171,4 +171,4 @@ function SeriesCard({
   );
 }
 
-export default React.memo(SeriesCard);
+export default React.memo(LectureCard);

@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { HYDRATE } from "next-redux-wrapper";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import postApi from "@src/api/postApi";
-import seriesApi from "@src/api/seriesApi";
+import lectureApi from "@src/api/lectureApi";
 import tagApi from "@src/api/tagApi";
 
 // ACTION TYPE
@@ -17,20 +17,24 @@ export const loadInitialData = createAction(LOAD_INITIAL_DATA);
 function* loadInitialDataSaga() {
   try {
     // all을 통해 Concurrent하게 호출된다.
-    const [recentRes, tagRes, seriesRes, postRes, viewRes] = yield all([
-      call(postApi.recentPost),
-      call(tagApi.groupTag),
-      call(seriesApi.recommandSeries),
-      call(postApi.recommandPost),
-      call(postApi.mostViewPost),
+    const [recentRes, tagRes, lectureRes, postRes, viewRes] = yield all([
+      call(postApi.recentPosts),
+      call(tagApi.groupTags),
+      call(lectureApi.recommandLectures),
+      call(postApi.recommandPosts),
+      call(postApi.mostViewPosts),
     ]);
+
+    console.log("========================================");
+    console.log("정상실행");
+    console.log("========================================");
 
     yield put({
       type: LOAD_INITIAL_DATA_SUCCESS,
       payload: {
         recentPosts: recentRes.data,
         tagGroups: tagRes.data,
-        recommandSeries: seriesRes.data,
+        recommandLectures: lectureRes.data,
         recommandPosts: postRes.data,
         mostViewPosts: viewRes.data,
       },
@@ -45,11 +49,11 @@ function* loadInitialDataSaga() {
 
 // 초기 state
 const initialState = {
-  recentPosts: [],
-  tagGroups: [],
-  recommandSeries: [],
-  recommandPosts: [],
-  mostViewPosts: [],
+  recentPosts: null,
+  tagGroups: null,
+  recommandLectures: null,
+  recommandPosts: null,
+  mostViewPosts: null,
   error: null,
 };
 
@@ -64,7 +68,7 @@ const mainReducer = handleActions(
         payload: {
           recentPosts,
           tagGroups,
-          recommandSeries,
+          recommandLectures,
           recommandPosts,
           mostViewPosts,
         },
@@ -73,7 +77,7 @@ const mainReducer = handleActions(
       ...state,
       recentPosts,
       tagGroups,
-      recommandSeries,
+      recommandLectures,
       recommandPosts,
       mostViewPosts,
       error: null,

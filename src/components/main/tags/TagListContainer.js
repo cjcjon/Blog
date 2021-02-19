@@ -20,15 +20,19 @@ function TagListContainer() {
   const wordStyles = useWordStyles();
 
   return (
-    <Box className={classes.root}>
-      <Typography variant="h6" gutterBottom className={wordStyles.bold}>
-        태그 목록
-      </Typography>
-      <Hidden only="xs">
-        <Divider />
-      </Hidden>
-      <TagList responsive tags={tagGroups} />
-    </Box>
+    <>
+      {tagGroups && (
+        <Box className={classes.root}>
+          <Typography variant="h6" gutterBottom className={wordStyles.bold}>
+            태그 목록
+          </Typography>
+          <Hidden only="xs">
+            <Divider />
+          </Hidden>
+          <TagList responsive tags={tagGroups} />
+        </Box>
+      )}
+    </>
   );
 }
 

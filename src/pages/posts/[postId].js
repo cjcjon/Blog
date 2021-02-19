@@ -31,6 +31,7 @@ function PostViewer() {
   return (
     <PostLayout>
       <PostViewerHeadContainer />
+      <Divider />
       <PostViewerContentContainer />
       <Divider />
     </PostLayout>

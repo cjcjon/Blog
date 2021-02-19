@@ -7,7 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useErrorStyles } from "@styles/useful.styles";
 
-function SeriesDeleteDialog({
+function LectureDeleteDialog({
   open,
   title,
   desc,
@@ -46,4 +46,4 @@ function SeriesDeleteDialog({
   );
 }
 
-export default React.memo(SeriesDeleteDialog);
+export default React.memo(LectureDeleteDialog);

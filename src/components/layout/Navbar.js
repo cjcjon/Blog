@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import LinkButton from "@components/links/LinkButton";
@@ -16,18 +16,13 @@ const useStyles = makeStyles((theme) => ({
 
 const paths = [
   { text: "Default", path: "/" },
-  { text: "Home", path: "/home" },
-  { text: "Series", path: "/series" },
+  { text: "Lectures", path: "/lectures" },
 ];
 
 const externalPaths = [{ text: "Github", path: "https://github.com" }];
 
 function Navbar() {
   const classes = useStyles();
-
-  useEffect(() => {
-    console.log("NavBar rendered");
-  }, []);
 
   return (
     <Box

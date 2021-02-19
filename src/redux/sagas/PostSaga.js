@@ -1,38 +1,38 @@
 import { createAction, handleActions } from "redux-actions";
 import { HYDRATE } from "next-redux-wrapper";
 import { call, put, takeLatest } from "redux-saga/effects";
-import seriesApi from "@src/api/seriesApi";
+import lectureApi from "@src/api/lectureApi";
 import postApi from "@src/api/postApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
-export const FETCH_POSTS = "PostReducer/FETCH_POSTS"; // 시리즈의 포스트 전체 불러오기
-const FETCH_POSTS_SUCCESS = "PostReducer/FETCH_POSTS_SUCCESS"; // 시리즈의 포스트 전체 불러오기 성공
-const FETCH_POSTS_FAILURE = "PostReducer/FETCH_POSTS_FAILURE"; // 시리즈의 포스트 전체 불러오기 실패
+export const FETCH_POSTS = "PostReducer/FETCH_POSTS"; // 강의 포스트 전체 불러오기
+const FETCH_POSTS_SUCCESS = "PostReducer/FETCH_POSTS_SUCCESS"; // 강의 포스트 전체 불러오기 성공
+const FETCH_POSTS_FAILURE = "PostReducer/FETCH_POSTS_FAILURE"; // 강의 포스트 전체 불러오기 실패
 
 export const READ_POST = "PostReducer/READ_POST"; // 포스트 읽어들이기
 const READ_POST_SUCCESS = "PostReducer/READ_POST_SUCCESS"; // 포스트 읽어들이기 성공
 const READ_POST_FAILURE = "PostReducer/READ_POST_FAILURE"; // 포스트 읽어들이기 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
-export const fetchPosts = createAction(FETCH_POSTS, (seriesId) => seriesId);
+export const fetchPosts = createAction(FETCH_POSTS, (lectureId) => lectureId);
 export const readPost = createAction(READ_POST, (postId) => postId);
 
-function* fetchPostsSaga({ payload: seriesId }) {
+function* fetchPostsSaga({ payload: lectureId }) {
   // 로딩 시작
   yield put(startLoading(FETCH_POSTS));
 
   try {
     // api 호출
-    const res = yield call(seriesApi.seriesPostList, seriesId);
+    const res = yield call(lectureApi.lecturePostList, lectureId);
 
-    // series와 posts 두 개의 데이터를 받는다
-    const { series, posts } = { ...res.data };
+    // lecture와 posts 두 개의 데이터를 받는다
+    const { lecture, posts } = { ...res.data };
 
     // 성공
     yield put({
       type: FETCH_POSTS_SUCCESS,
-      payload: { series, posts },
+      payload: { lecture, posts },
     });
   } catch (err) {
     // 실패
@@ -52,18 +52,18 @@ function* readPostSaga({ payload: postId }) {
 
   try {
     const postRes = yield call(postApi.readPost, postId);
-    const seriesRes = yield call(
-      seriesApi.seriesPostList,
-      postRes.data.seriesId,
+    const lectureRes = yield call(
+      lectureApi.lecturePostList,
+      postRes.data.lectureId,
     );
 
-    const { series, posts } = { ...seriesRes.data };
+    const { lecture, posts } = { ...lectureRes.data };
 
     yield put({
       type: READ_POST_SUCCESS,
       payload: {
         postInfo: postRes.data,
-        series,
+        lecture,
         posts,
       },
     });
@@ -81,7 +81,7 @@ function* readPostSaga({ payload: postId }) {
 
 // 초기 state
 const initialState = {
-  seriesInfo: null,
+  lectureInfo: null,
   postList: null,
   postInfo: null,
   error: null,
@@ -92,9 +92,9 @@ const initialState = {
 const postReducer = handleActions(
   {
     [HYDRATE]: (state, action) => ({ ...state, ...action.payload.post }),
-    [FETCH_POSTS_SUCCESS]: (state, { payload: { series, posts } }) => ({
+    [FETCH_POSTS_SUCCESS]: (state, { payload: { lecture, posts } }) => ({
       ...state,
-      seriesInfo: series,
+      lectureInfo: lecture,
       postList: posts,
       error: null,
     }),
@@ -102,9 +102,12 @@ const postReducer = handleActions(
       ...state,
       error: payload,
     }),
-    [READ_POST_SUCCESS]: (state, { payload: { postInfo, series, posts } }) => ({
+    [READ_POST_SUCCESS]: (
+      state,
+      { payload: { postInfo, lecture, posts } },
+    ) => ({
       ...state,
-      seriesInfo: series,
+      lectureInfo: lecture,
       postList: posts,
       postInfo,
     }),

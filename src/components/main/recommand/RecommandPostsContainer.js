@@ -5,7 +5,7 @@ import { useColumnBoxStyles } from "@styles/columnBox.style";
 import RecommandPostTitle from "./RecommandPostTitle";
 import RecommandPostList from "./RecommandPostList";
 
-function RecommandPostContainer() {
+function RecommandPostsContainer() {
   const recommandPosts = useSelector(({ main }) => main.recommandPosts);
   const columnBoxStyle = useColumnBoxStyles();
 
@@ -17,4 +17,4 @@ function RecommandPostContainer() {
   );
 }
 
-export default React.memo(RecommandPostContainer);
+export default React.memo(RecommandPostsContainer);

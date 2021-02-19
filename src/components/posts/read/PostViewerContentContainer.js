@@ -3,17 +3,17 @@ import { useSelector } from "react-redux";
 import PostViewerContent from "./PostViewerContent";
 
 function PostViewerContentContainer() {
-  const { seriesInfo, postList, postInfo } = useSelector(({ post }) => ({
-    seriesInfo: post.seriesInfo,
+  const { lectureInfo, postList, postInfo } = useSelector(({ post }) => ({
+    lectureInfo: post.lectureInfo,
     postList: post.postList,
     postInfo: post.postInfo,
   }));
 
   return (
     <>
-      {seriesInfo && postList && postInfo && (
+      {lectureInfo && postList && postInfo && (
         <PostViewerContent
-          seriesInfo={seriesInfo}
+          lectureInfo={lectureInfo}
           postList={postList}
           postInfo={postInfo}
         />

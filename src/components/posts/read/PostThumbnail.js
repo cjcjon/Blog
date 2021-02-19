@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostThumbnail({ seriesInfo, href, number, post }) {
+function PostThumbnail({ lectureInfo, href, number, post }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -59,7 +59,7 @@ function PostThumbnail({ seriesInfo, href, number, post }) {
       <Grid item xs={12} sm={4} md={3}>
         <LinkWrapper href={href}>
           <CardMedia
-            image={seriesInfo.thumbnail}
+            image={lectureInfo.thumbnail}
             alt="No Thumbnail"
             className={classes.thumbnail}
           />

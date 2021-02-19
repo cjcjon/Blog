@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function PostList({ seriesInfo, postList }) {
+function PostList({ lectureInfo, postList }) {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,7 @@ function PostList({ seriesInfo, postList }) {
         postList.map((data, idx) => (
           <div className={classes.listItem} key={data.id}>
             <PostThumbnail
-              seriesInfo={seriesInfo}
+              lectureInfo={lectureInfo}
               href={`/posts/${data.id}`}
               number={idx + 1}
               post={data}
