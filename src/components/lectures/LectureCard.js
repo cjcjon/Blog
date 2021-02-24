@@ -18,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
     width: "100%",
-    transition: ".3s",
+    transition: "all 0.3s",
+    msTransition: "all 0.3s",
+    MozTransition: "all 0.3s",
+    WebkitTransition: "all 0.3s",
     "&:hover": {
       transform: "translateY(-4px)",
     },

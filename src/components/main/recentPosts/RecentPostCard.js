@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "180px",
     margin: "0",
-    transition: ".5s",
+    transition: "all 0.5s",
+    msTransition: "all 0.5s",
+    MozTransition: "all 0.5s",
+    WebkitTransition: "all 0.5s",
     boxShadow: "8px 12px 18px rgba(34, 35, 58, 0.2)",
     [theme.breakpoints.up("sm")]: {
       "&:hover": {
