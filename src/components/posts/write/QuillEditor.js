@@ -2,9 +2,9 @@ import React, { useRef, useEffect } from "react";
 import hljs from "highlight.js";
 import "quill/dist/quill.snow.css";
 import "highlight.js/styles/atom-one-dark.css";
+import { v4 } from "uuid";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import PostLayout from "@components/layout/PostLayout";
 import postApi from "@src/api/postApi";
 
 // SSR 이라서 import 불가
@@ -95,17 +95,15 @@ function QuillEditor({ title, body, onChangeField }) {
       // 더 많은 옵션은 https://quilljs.com/docs/modules/toolbar/ 참고
       toolbar: {
         container: [
-          [{ header: "1" }, { header: "2" }],
+          [{ font: [] }],
+          [{ header: [1, 2, 3, false] }],
+          [{ size: ["small", false, "large", "huge"] }],
           ["bold", "italic", "underline", "strike"],
           ["blockquote", "code-block", "link", "image", "video"],
           [{ list: "ordered" }, { list: "bullet" }],
           [{ script: "sub" }, { script: "super" }],
           [{ indent: "-1" }, { indent: "+1" }],
-          [{ direction: "rtl" }],
-          [{ size: ["small", false, "large", "huge"] }],
-          [{ header: [1, 2, 3, false] }],
           [{ color: [] }, { background: [] }],
-          [{ font: [] }],
           [{ align: [] }],
           ["clean"],
         ],
@@ -123,6 +121,17 @@ function QuillEditor({ title, body, onChangeField }) {
         require("quill-blot-formatter").default,
       );
       modules.blotFormatter = {};
+
+      // html Header에 아이디 추가해주는 모듈
+      const Header = Quill.import("formats/header");
+      class IdHeader extends Header {
+        static create(value) {
+          const node = super.create(value);
+          node.setAttribute("id", v4());
+          return node;
+        }
+      }
+      Quill.register("formats/header", IdHeader);
     }
 
     quillInstance.current = new Quill(
