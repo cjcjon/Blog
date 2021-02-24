@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import PostLayout from "@components/layout/PostLayout";
 import PostViewerHeadContainer from "@components/posts/read/PostViewerHeadContainer";
 import PostViewerContentContainer from "@components/posts/read/PostViewerContentContainer";
+import PostViewerTOCContainer from "@components/posts/read/PostViewerTOCContainer";
 import { readPost } from "@redux/sagas/PostSaga";
 
 function PostViewer() {
@@ -29,12 +30,15 @@ function PostViewer() {
   }
 
   return (
-    <PostLayout>
-      <PostViewerHeadContainer />
-      <Divider />
-      <PostViewerContentContainer />
-      <Divider />
-    </PostLayout>
+    <>
+      <PostLayout>
+        <PostViewerHeadContainer />
+        <Divider />
+        <PostViewerContentContainer />
+        <Divider />
+        <PostViewerTOCContainer />
+      </PostLayout>
+    </>
   );
 }
 
