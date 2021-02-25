@@ -1,7 +1,7 @@
 import configedAxios from "../axios";
 
 const lectureList = () => {
-  return configedAxios.get("/api/lectures/list");
+  return configedAxios.get("/api/lectures");
 };
 
 const lectureInfo = (lectureId) => {
