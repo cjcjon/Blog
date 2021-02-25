@@ -29,16 +29,18 @@ const useStyles = makeStyles((theme) => ({
   tocLi: {
     fontSize: "0.85rem",
     color: theme.palette.grey[400],
-    padding: "0.0625rem 0 0.0625rem 0.125rem",
+    padding: "0.0625rem 0 0.0625rem 1rem",
+    borderLeft: "3px solid transparent",
     boxSizing: "border-box",
-    transition: "all 0.3s",
-    msTransition: "all 0.3s",
-    MozTransition: "all 0.3s",
-    WebkitTransition: "all 0.3s",
+    transition: "fontSize 0.3s, color 0.3s",
+    msTransition: "fontSize 0.3s, color 0.3s",
+    MozTransition: "fontSize 0.3s, color 0.3s",
+    WebkitTransition: "fontSize 0.3s, color 0.3s",
   },
   active: {
     fontSize: "0.95rem",
     color: theme.palette.common.black,
+    borderLeftColor: theme.palette.grey[600],
   },
   tocLih1: {
     paddingLeft: "0",
