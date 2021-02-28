@@ -44,7 +44,7 @@ function* fetchPostsSaga({ payload: lectureId }) {
     // 실패
     yield put({
       type: FETCH_POSTS_FAILURE,
-      payload: { name: err.name, message: err.message, stack: err.stack },
+      payload: { name: err.name, message: err.response.data, stack: err.stack },
     });
   } finally {
     // 로딩 종료
@@ -77,7 +77,7 @@ function* readPostSaga({ payload: postId }) {
     // 실패
     yield put({
       type: READ_POST_FAILURE,
-      payload: { name: err.name, message: err.message, stack: err.stack },
+      payload: { name: err.name, message: err.response.data, stack: err.stack },
     });
   } finally {
     // 로딩 종료

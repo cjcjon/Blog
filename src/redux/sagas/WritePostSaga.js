@@ -32,7 +32,7 @@ function* writeSaga({ payload: formData }) {
     // 실패
     yield put({
       type: WRITE_FAILURE,
-      payload: { name: err.name, message: err.message, stack: err.stack },
+      payload: { name: err.name, message: err.response.data, stack: err.stack },
     });
   } finally {
     // 로딩 종료
