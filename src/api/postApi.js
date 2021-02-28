@@ -31,6 +31,10 @@ const readPost = (postId) => {
   return configedAxios.get(`/api/posts/${postId}`);
 };
 
+const likePost = (postId) => {
+  return configedAxios.post(`/api/posts/${postId}/like`);
+};
+
 const postApi = {
   recentPosts,
   recommandPosts,
@@ -39,6 +43,7 @@ const postApi = {
   deleteImage,
   writePost,
   readPost,
+  likePost,
 };
 
 export default postApi;

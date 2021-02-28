@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import TagList from "@components/tags/TagList";
+import PostViewerLikes from "./PostViewerLikes";
 import PostViewerAccordion from "./PostViewerAccordion";
 
 const useStyles = makeStyles(() => ({
@@ -27,7 +28,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function PostViewerContent({ lectureInfo, postList, postInfo }) {
+function PostViewerContent({
+  lectureInfo,
+  postList,
+  postInfo,
+  likeErrorMsg,
+  onClickLike,
+}) {
   const classes = useStyles();
 
   return (
@@ -38,6 +45,11 @@ function PostViewerContent({ lectureInfo, postList, postInfo }) {
           dangerouslySetInnerHTML={{ __html: postInfo.body }}
         />
       </div>
+      <PostViewerLikes
+        number={postInfo.likes}
+        onClick={onClickLike}
+        errorMsg={likeErrorMsg}
+      />
       <div className={classes.accordion}>
         <PostViewerAccordion lectureInfo={lectureInfo} postList={postList} />
       </div>

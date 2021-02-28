@@ -1,13 +1,23 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { likePost } from "@redux/sagas/PostSaga";
 import PostViewerContent from "./PostViewerContent";
 
 function PostViewerContentContainer() {
-  const { lectureInfo, postList, postInfo } = useSelector(({ post }) => ({
-    lectureInfo: post.lectureInfo,
-    postList: post.postList,
-    postInfo: post.postInfo,
-  }));
+  const dispatch = useDispatch();
+  const { lectureInfo, postList, postInfo, likeErrorMsg } = useSelector(
+    ({ post }) => ({
+      lectureInfo: post.lectureInfo,
+      postList: post.postList,
+      postInfo: post.postInfo,
+      likeErrorMsg: post.likeFailureMsg,
+    }),
+  );
+
+  // 좋아요 버튼 누를때 호출
+  const onClickLike = useCallback(() => {
+    dispatch(likePost(postInfo.id));
+  }, [postInfo, dispatch]);
 
   return (
     <>
@@ -16,6 +26,8 @@ function PostViewerContentContainer() {
           lectureInfo={lectureInfo}
           postList={postList}
           postInfo={postInfo}
+          likeErrorMsg={likeErrorMsg}
+          onClickLike={onClickLike}
         />
       )}
     </>

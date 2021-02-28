@@ -25,10 +25,6 @@ function* loadInitialDataSaga() {
       call(postApi.mostViewPosts),
     ]);
 
-    console.log("========================================");
-    console.log("정상실행");
-    console.log("========================================");
-
     yield put({
       type: LOAD_INITIAL_DATA_SUCCESS,
       payload: {

@@ -1,4 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
+import produce from "immer";
 import { HYDRATE } from "next-redux-wrapper";
 import { call, put, takeLatest } from "redux-saga/effects";
 import lectureApi from "@src/api/lectureApi";
@@ -14,9 +15,14 @@ export const READ_POST = "PostReducer/READ_POST"; // 포스트 읽어들이기
 const READ_POST_SUCCESS = "PostReducer/READ_POST_SUCCESS"; // 포스트 읽어들이기 성공
 const READ_POST_FAILURE = "PostReducer/READ_POST_FAILURE"; // 포스트 읽어들이기 실패
 
+export const LIKE_POST = "PostReducer/LIKE_POST"; // 포스트 좋아요
+const LIKE_POST_SUCCESS = "PostReducer/LIKE_POST_SUCCESS"; // 포스트 좋아요 성공
+const LIKE_POST_FAILURE = "PostReducer/LIKE_POST_FAILURE"; // 포스트 좋아요 실패
+
 // ACTION (타입과 payload들이 저장되는 object)
 export const fetchPosts = createAction(FETCH_POSTS, (lectureId) => lectureId);
 export const readPost = createAction(READ_POST, (postId) => postId);
+export const likePost = createAction(LIKE_POST, (postId) => postId);
 
 function* fetchPostsSaga({ payload: lectureId }) {
   // 로딩 시작
@@ -79,12 +85,35 @@ function* readPostSaga({ payload: postId }) {
   }
 }
 
+function* likePostSaga({ payload: postId }) {
+  // 로딩 시작
+  yield put(startLoading(LIKE_POST));
+
+  try {
+    const res = yield call(postApi.likePost, postId);
+
+    yield put({
+      type: LIKE_POST_SUCCESS,
+      payload: res.likes,
+    });
+  } catch (err) {
+    yield put({
+      type: LIKE_POST_FAILURE,
+      payload: err.response.data,
+    });
+  } finally {
+    // 로딩 종료
+    yield put(finishLoading(LIKE_POST));
+  }
+}
+
 // 초기 state
 const initialState = {
   lectureInfo: null,
   postList: null,
   postInfo: null,
   error: null,
+  likeFailureMsg: null,
 };
 
 // 리듀서 (state값만 변경된다)
@@ -115,6 +144,17 @@ const postReducer = handleActions(
       ...state,
       error: payload,
     }),
+    [LIKE_POST_SUCCESS]: (state, { payload: likes }) =>
+      produce(state, (draft) => {
+        // eslint-disable-next-line no-param-reassign
+        draft.likeFailureMsg = null;
+        // eslint-disable-next-line no-param-reassign
+        draft.postInfo.likes = likes;
+      }),
+    [LIKE_POST_FAILURE]: (state, { payload: msg }) => ({
+      ...state,
+      likeFailureMsg: msg,
+    }),
   },
   initialState,
 );
@@ -122,6 +162,7 @@ const postReducer = handleActions(
 export function* postSaga() {
   yield takeLatest(FETCH_POSTS, fetchPostsSaga);
   yield takeLatest(READ_POST, readPostSaga);
+  yield takeLatest(LIKE_POST, likePostSaga);
 }
 
 export default postReducer;
