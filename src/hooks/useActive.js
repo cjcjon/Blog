@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 
 /**
- * itemIds 중 현재 화면의 rootMargin 영역안에 나와있는 모든 id 반환
+ * itemIds 중 현재 화면의 rootMargin 영역안에 나와있는 id 반환
  * @param {string[]} itemIds html tag id array
  * @param {string} rootMargin viewport의 margin
  */
-function useActives(itemIds, rootMargin) {
-  const [activeIds, setActiveIds] = useState([]);
+function useActive(itemIds, rootMargin) {
+  const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     let observer;
@@ -15,15 +15,13 @@ function useActives(itemIds, rootMargin) {
     if (itemIds && itemIds.length > 0) {
       observer = new IntersectionObserver(
         (entries) => {
-          const actives = [];
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              actives.push(entry.target.id);
+              setActiveId(entry.target.id);
             }
           });
-          setActiveIds(actives);
         },
-        { rootMargin: rootMargin || `0% 0% -80% 0%` },
+        { rootMargin: rootMargin || `0% 0% -90% 0%` },
       );
 
       itemIds.forEach((id) => {
@@ -34,7 +32,7 @@ function useActives(itemIds, rootMargin) {
     return () => observer && observer.disconnect();
   }, [itemIds, rootMargin]);
 
-  return activeIds;
+  return activeId;
 }
 
-export default useActives;
+export default useActive;

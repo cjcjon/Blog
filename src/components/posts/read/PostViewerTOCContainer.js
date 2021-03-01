@@ -8,6 +8,7 @@ function PostViewerTOCContainer() {
 
   const regExp = useRef(new RegExp(/(<h\d.*?>)(?:(.*?|\n*?))(?=<\/h\d>)/, "g"));
   const [navContents, setNavContents] = useState([]);
+  const [idList, setIdList] = useState([]);
 
   useEffect(() => {
     if (!postInfo) return;
@@ -59,9 +60,15 @@ function PostViewerTOCContainer() {
 
     // 컨텐츠 넣기
     setNavContents(contents);
+    // activeId 배열 생성
+    setIdList(contents.map((item) => item.id));
   }, [postInfo]);
 
-  return <>{postInfo && <PostViewerTOC navContents={navContents} />}</>;
+  return (
+    <>
+      {postInfo && <PostViewerTOC navContents={navContents} idList={idList} />}
+    </>
+  );
 }
 
 export default React.memo(PostViewerTOCContainer);

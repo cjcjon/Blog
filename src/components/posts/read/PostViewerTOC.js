@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import useActives from "@src/hooks/useActives";
+import useActive from "@src/hooks/useActive";
 
 const useStyles = makeStyles((theme) => ({
   toc: {
@@ -53,16 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostViewerTOC({ navContents }) {
+function PostViewerTOC({ navContents, idList }) {
   const classes = useStyles();
 
   const [fixed, setFixed] = useState(false);
-  const activeIds = useActives(
-    navContents?.map((item) => {
-      return item.id;
-    }),
-    `0% 0% 0% 0%`,
-  );
+  const activeId = useActive(idList);
   const ref = useRef(null);
   const timer = useRef(null);
 
@@ -108,7 +103,7 @@ function PostViewerTOC({ navContents }) {
             return (
               <li
                 className={clsx(classes.tocLi, {
-                  [classes.active]: activeIds.includes(data.id),
+                  [classes.active]: activeId === data.id,
                 })}
                 key={data.id}
               >
