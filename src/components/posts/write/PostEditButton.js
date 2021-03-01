@@ -3,11 +3,7 @@ import Button from "@material-ui/core/Button";
 
 function PostEditButton() {
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      style={{ marginTop: "0.25rem" }}
-    >
+    <Button variant="contained" color="primary">
       포스트 작성
     </Button>
   );

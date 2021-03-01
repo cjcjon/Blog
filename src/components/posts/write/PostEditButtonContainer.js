@@ -11,9 +11,18 @@ function PostEditButtonContainer() {
   return (
     <>
       {lectureInfo && (
-        <LinkWrapper href={`/posts/write?lectureId=${lectureInfo.id}`}>
-          <PostEditButton />
-        </LinkWrapper>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "1rem",
+            marginTop: "-2rem",
+          }}
+        >
+          <LinkWrapper href={`/posts/write?lectureId=${lectureInfo.id}`}>
+            <PostEditButton />
+          </LinkWrapper>
+        </div>
       )}
     </>
   );
