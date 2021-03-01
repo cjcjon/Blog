@@ -6,8 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import TagList from "@components/tags/TagList";
-import PostViewerLikes from "./PostViewerLikes";
-import PostViewerAccordion from "./PostViewerAccordion";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,6 +15,9 @@ const useStyles = makeStyles(() => ({
   bodyContent: {
     marginBottom: "1.5rem",
     padding: "0 !important",
+  },
+  likes: {
+    marginTop: "18rem",
   },
   accordion: {
     marginBottom: "1.5rem",
@@ -28,31 +29,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function PostViewerContent({
-  lectureInfo,
-  postList,
-  postInfo,
-  likeErrorMsg,
-  onClickLike,
-}) {
+function PostViewerContent({ postInfo, actionButtons, likes, accordion }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      {actionButtons}
       <div className={clsx("ql-snow")}>
         <div
           className={clsx("ql-editor", classes.bodyContent)}
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: postInfo.body }}
         />
       </div>
-      <PostViewerLikes
-        number={postInfo.likes}
-        onClick={onClickLike}
-        errorMsg={likeErrorMsg}
-      />
-      <div className={classes.accordion}>
-        <PostViewerAccordion lectureInfo={lectureInfo} postList={postList} />
-      </div>
+      <div className={classes.likes}>{likes}</div>
+      <div className={classes.accordion}>{accordion}</div>
       <div>
         <div className={classes.iconText}>
           <LocalOfferIcon />

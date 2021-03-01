@@ -27,6 +27,10 @@ const writePost = (formData) => {
   return configedAxios.post("/api/posts", formData);
 };
 
+const modifyPost = (formData) => {
+  return configedAxios.patch(`/api/posts/${formData.get("id")}`, formData);
+};
+
 const readPost = (postId) => {
   return configedAxios.get(`/api/posts/${postId}`);
 };
@@ -42,6 +46,7 @@ const postApi = {
   uploadImage,
   deleteImage,
   writePost,
+  modifyPost,
   readPost,
   likePost,
 };

@@ -169,6 +169,9 @@ function QuillEditor({ title, body, onChangeField }) {
         }
       }
     });
+
+    // body 저장
+    quillInstance.current.root.innerHTML = body;
   }, [onChangeField]);
 
   // 타이틀 변경
