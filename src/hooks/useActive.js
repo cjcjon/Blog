@@ -10,7 +10,7 @@ function useActive(itemIds, rootMargin) {
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
-    let observer;
+    let observer = null;
 
     if (itemIds && itemIds.length > 0) {
       observer = new IntersectionObserver(
@@ -29,7 +29,11 @@ function useActive(itemIds, rootMargin) {
       });
     }
 
-    return () => observer && observer.disconnect();
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
   }, [itemIds, rootMargin]);
 
   return activeId;
