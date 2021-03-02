@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { END } from "redux-saga";
+import { useDispatch } from "react-redux";
 import Store from "@redux/Store";
 import Banner from "@components/Banner";
 import PostEditButtonContainer from "@components/posts/write/PostEditButtonContainer";
 import PostListContainer from "@components/posts/read/PostListContainer";
-import { fetchPosts } from "@redux/sagas/PostSaga";
+import { initialize, fetchPosts } from "@redux/sagas/PostSaga";
 
 function posts({ title }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      // 나갈 때 데이터 전부 지우기
+      dispatch(initialize());
+    };
+  }, [dispatch]);
+
   return (
     <>
       {/* 강의 제목 보여주는 배너 */}
