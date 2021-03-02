@@ -4,19 +4,19 @@ import { stripHtml } from "string-strip-html";
 import PostViewerTOC from "./PostViewerTOC";
 
 function PostViewerTOCContainer() {
-  const postInfo = useSelector(({ post }) => post.postInfo);
+  const postBody = useSelector(({ post }) => post.postInfo?.body);
 
   const regExp = useRef(new RegExp(/(<h\d.*?>)(?:(.*?|\n*?))(?=<\/h\d>)/, "g"));
   const [navContents, setNavContents] = useState([]);
   const [idList, setIdList] = useState([]);
 
   useEffect(() => {
-    if (!postInfo) return;
+    if (!postBody) return;
 
     const contents = [];
 
     // h1, h2, h3 잘라서 생성
-    let res = regExp.current.exec(postInfo.body);
+    let res = regExp.current.exec(postBody);
     while (res !== null) {
       const regData = res[0];
       const htmlTag = regData.substring(1, 3);
@@ -46,7 +46,7 @@ function PostViewerTOCContainer() {
       }
 
       // 값 다시 매칭
-      res = regExp.current.exec(postInfo.body);
+      res = regExp.current.exec(postBody);
 
       // 정상적인 값이 아닐경우 무시
       if (!canPush) {
@@ -62,11 +62,11 @@ function PostViewerTOCContainer() {
     setNavContents(contents);
     // activeId 배열 생성
     setIdList(contents.map((item) => item.id));
-  }, [postInfo]);
+  }, [postBody]);
 
   return (
     <>
-      {postInfo && <PostViewerTOC navContents={navContents} idList={idList} />}
+      {postBody && <PostViewerTOC navContents={navContents} idList={idList} />}
     </>
   );
 }

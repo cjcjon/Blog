@@ -27,6 +27,10 @@ const writePost = (formData) => {
   return configedAxios.post("/api/posts", formData);
 };
 
+const deletePost = (deleteId) => {
+  return configedAxios.delete(`/api/posts/${deleteId}`);
+};
+
 const modifyPost = (formData) => {
   return configedAxios.patch(`/api/posts/${formData.get("id")}`, formData);
 };
@@ -46,6 +50,7 @@ const postApi = {
   uploadImage,
   deleteImage,
   writePost,
+  deletePost,
   modifyPost,
   readPost,
   likePost,

@@ -7,6 +7,8 @@ import postApi from "@src/api/postApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
+const INITIALIZE = "PostReducer/INITIALIZE"; // 포스트 데이터 초기화
+
 export const FETCH_POSTS = "PostReducer/FETCH_POSTS"; // 강의 포스트 전체 불러오기
 const FETCH_POSTS_SUCCESS = "PostReducer/FETCH_POSTS_SUCCESS"; // 강의 포스트 전체 불러오기 성공
 const FETCH_POSTS_FAILURE = "PostReducer/FETCH_POSTS_FAILURE"; // 강의 포스트 전체 불러오기 실패
@@ -19,10 +21,16 @@ export const LIKE_POST = "PostReducer/LIKE_POST"; // 포스트 좋아요
 const LIKE_POST_SUCCESS = "PostReducer/LIKE_POST_SUCCESS"; // 포스트 좋아요 성공
 const LIKE_POST_FAILURE = "PostReducer/LIKE_POST_FAILURE"; // 포스트 좋아요 실패
 
+export const DELETE_POST = "PostReducer/DELETE_POST"; // 포스트 삭제
+const DELETE_POST_SUCCESS = "PostReducer/DELETE_POST_SUCCESS"; // 포스트 삭제 성공
+const DELETE_POST_FAILURE = "PostReducer/DELETE_POST_FAILURE"; // 포스트 삭제 실패
+
 // ACTION (타입과 payload들이 저장되는 object)
+export const initialize = createAction(INITIALIZE);
 export const fetchPosts = createAction(FETCH_POSTS, (lectureId) => lectureId);
 export const readPost = createAction(READ_POST, (postId) => postId);
 export const likePost = createAction(LIKE_POST, (postId) => postId);
+export const deletePost = createAction(DELETE_POST, (postId) => postId);
 
 function* fetchPostsSaga({ payload: lectureId }) {
   // 로딩 시작
@@ -77,7 +85,12 @@ function* readPostSaga({ payload: postId }) {
     // 실패
     yield put({
       type: READ_POST_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: {
+        status: err.response.status,
+        name: err.name,
+        message: err.response.data,
+        stack: err.stack,
+      },
     });
   } finally {
     // 로딩 종료
@@ -107,13 +120,37 @@ function* likePostSaga({ payload: postId }) {
   }
 }
 
+function* deletePostSaga({ payload: postId }) {
+  // 로딩 시작
+  yield put(startLoading(DELETE_POST));
+
+  try {
+    const res = yield call(postApi.deletePost, postId);
+
+    yield put({
+      type: DELETE_POST_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    yield put({
+      type: DELETE_POST_FAILURE,
+      payload: err.response.data,
+    });
+  } finally {
+    // 로딩 종료
+    yield put(finishLoading(DELETE_POST));
+  }
+}
+
 // 초기 state
 const initialState = {
   lectureInfo: null,
   postList: null,
   postInfo: null,
+  nextLink: null,
   error: null,
   likeFailureMsg: null,
+  deleteFailureMsg: null,
 };
 
 // 리듀서 (state값만 변경된다)
@@ -121,6 +158,7 @@ const initialState = {
 const postReducer = handleActions(
   {
     [HYDRATE]: (state, action) => ({ ...state, ...action.payload.post }),
+    [INITIALIZE]: () => initialState,
     [FETCH_POSTS_SUCCESS]: (state, { payload: { lecture, posts } }) => ({
       ...state,
       lectureInfo: lecture,
@@ -155,6 +193,15 @@ const postReducer = handleActions(
       ...state,
       likeFailureMsg: msg,
     }),
+    [DELETE_POST_SUCCESS]: (state, { payload }) => ({
+      ...state,
+      nextLink: payload,
+      deleteFailureMsg: null,
+    }),
+    [DELETE_POST_FAILURE]: (state, { payload: msg }) => ({
+      ...state,
+      deleteFailureMsg: msg,
+    }),
   },
   initialState,
 );
@@ -163,6 +210,7 @@ export function* postSaga() {
   yield takeLatest(FETCH_POSTS, fetchPostsSaga);
   yield takeLatest(READ_POST, readPostSaga);
   yield takeLatest(LIKE_POST, likePostSaga);
+  yield takeLatest(DELETE_POST, deletePostSaga);
 }
 
 export default postReducer;

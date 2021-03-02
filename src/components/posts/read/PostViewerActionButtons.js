@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import LoadingBackdrop from "@components/commons/LoadingBackdrop";
+import PostViewerDeleteDialog from "./PostViewerDeleteDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,15 +25,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostViewerActionButtons({ onEdit }) {
+function PostViewerActionButtons({ onEdit, onDelete, loading, deleteError }) {
   const classes = useStyles();
+  const [deleteDialog, setDeleteDialog] = useState(false);
+
+  const onDeleteClick = useCallback(() => {
+    setDeleteDialog(true);
+  }, []);
+
+  const onCancelDelete = useCallback(() => {
+    setDeleteDialog(false);
+  }, []);
 
   return (
     <div className={classes.root}>
       <Button className={clsx(classes.button, classes.modify)} onClick={onEdit}>
         수정
       </Button>
-      <Button className={clsx(classes.button, classes.delete)}>삭제</Button>
+      <Button
+        className={clsx(classes.button, classes.delete)}
+        onClick={onDeleteClick}
+      >
+        삭제
+      </Button>
+      <PostViewerDeleteDialog
+        open={deleteDialog}
+        onConfirm={onDelete}
+        onCancel={onCancelDelete}
+        error={deleteError}
+      />
+      <LoadingBackdrop open={loading} />
     </div>
   );
 }
