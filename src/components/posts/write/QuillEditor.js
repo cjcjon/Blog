@@ -82,6 +82,9 @@ function QuillEditor({ title, body, onChangeField }) {
 
       // 업로드된 이미지 추가
       quill.insertEmbed(range.index, "image", res.data);
+
+      // api를 통한 변경이므로 명시적으로 saga 저장 호출
+      onChangeField({ key: "body", value: quill.root.innerHTML });
     };
   };
 
@@ -148,6 +151,7 @@ function QuillEditor({ title, body, onChangeField }) {
     // quill에 변화가 생길 때마다 호출된다
     const quill = quillInstance.current;
     quill.on("text-change", (delta, oldDelta, source) => {
+      // 유저가 quill 조작할 때
       if (source === "user") {
         onChangeField({ key: "body", value: quill.root.innerHTML });
 
