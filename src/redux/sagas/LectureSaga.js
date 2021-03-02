@@ -6,6 +6,8 @@ import lectureApi from "@src/api/lectureApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
+const INITIALIZE = "LectureReducer/INITIALIZE";
+
 export const FETCH_LECTURES = "LectureReducer/FETCH_LECTURES"; // 강의 전체 불러오기
 const FETCH_LECTURES_SUCCESS = "LectureReducer/FETCH_LECTURES_SUCCESS"; // 강의 전체 불러오기 성공
 const FETCH_LECTURES_FAILURE = "LectureReducer/FETCH_LECTURES_FAILURE"; // 강의 전체 불러오기 실패
@@ -27,6 +29,7 @@ const MODIFY_LECTURE_SUCCESS = "LectureReducer/MODIFY_LECTURE_SUCCESS"; // 강�
 const MODIFY_LECTURE_FAILURE = "LectureReducer/MODIFY_LECTURE_FAILURE"; // 강의 수정 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
+export const initialize = createAction(INITIALIZE);
 export const fetchLectures = createAction(FETCH_LECTURES);
 export const initializeLectureDialog = createAction(INITIALIZE_LECTURE_DIALOG);
 export const changeLectureDialogField = createAction(
@@ -166,6 +169,7 @@ const initialState = {
 const lectureReducer = handleActions(
   {
     [HYDRATE]: (state, action) => ({ ...state, ...action.payload.lecture }),
+    [INITIALIZE]: () => initialState,
     [FETCH_LECTURES_SUCCESS]: (state, { payload }) => ({
       ...state,
       lectureList: payload,

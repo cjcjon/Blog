@@ -1,9 +1,11 @@
+import React, { useEffect } from "react";
 import { END } from "redux-saga";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
 import Store from "@redux/Store";
-import { loadInitialData } from "@redux/sagas/MainSaga";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import Banner from "@src/components/Banner";
+import { initialize, loadInitialData } from "@redux/sagas/MainSaga";
 import TagListContainer from "@src/components/main/tags/TagListContainer";
 import RecentPostContainer from "@src/components/main/recentPosts/RecentPostsContainer";
 import RecommandLecturesContainer from "@src/components/main/recommand/RecommandLecturesContainer";
@@ -37,8 +39,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function index() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const sizeStyles = useSizeStyles();
+
+  useEffect(() => {
+    return () => {
+      // 나갈 때 main saga 초기화
+      dispatch(initialize());
+    };
+  }, [dispatch]);
 
   return (
     <>

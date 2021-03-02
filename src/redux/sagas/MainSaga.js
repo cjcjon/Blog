@@ -6,11 +6,14 @@ import lectureApi from "@src/api/lectureApi";
 import tagApi from "@src/api/tagApi";
 
 // ACTION TYPE
+const INITIALIZE = "MainReducer/INITIALIZE"; // 초기화
+
 const LOAD_INITIAL_DATA = "MainReducer/LOAD_INITIAL_DATA"; // 메인 화면 초기 데이터 설정
 const LOAD_INITIAL_DATA_SUCCESS = "MainReducer/LOAD_INITIAL_DATA_SUCCESS"; // 메인 화면 초기 데이터 불러오기 성공
 const LOAD_INITIAL_DATA_FAILURE = "MainReducer/LOAD_INITIAL_DATA_FAILURE"; // 메인 화면 초기 데이터 불러오기 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
+export const initialize = createAction(INITIALIZE);
 export const loadInitialData = createAction(LOAD_INITIAL_DATA);
 
 // 초기 데이터 불러오는 사가
@@ -58,6 +61,7 @@ const initialState = {
 const mainReducer = handleActions(
   {
     [HYDRATE]: (state, action) => ({ ...state, ...action.payload.main }),
+    [INITIALIZE]: () => initialState,
     [LOAD_INITIAL_DATA_SUCCESS]: (
       state,
       {

@@ -5,17 +5,19 @@ import LectureWriteDialogContainer from "@src/components/lectures/LectureWriteDi
 import LectureDeleteDialogContainer from "@src/components/lectures/LectureDeleteDialogContainer";
 import LectureModifyDialogContainer from "@src/components/lectures/LectureModifyDialogContainer";
 import LectureListContainer from "@src/components/lectures/LectureListContainer";
-import { fetchLectures } from "@redux/sagas/LectureSaga";
+import { initialize, fetchLectures } from "@redux/sagas/LectureSaga";
 
 function lectures() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("강의 데이터 불러오기");
-
     // 강의 데이터 불러오기
     dispatch(fetchLectures());
-  }, []);
+
+    return () => {
+      dispatch(initialize());
+    };
+  }, [dispatch]);
 
   return (
     <>
