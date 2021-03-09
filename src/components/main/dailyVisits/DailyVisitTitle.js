@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DailyVisitTitle() {
+function DailyVisitTitle({ title }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
@@ -25,7 +25,7 @@ function DailyVisitTitle() {
         variant="subtitle1"
         className={clsx(classes.title, wordStyles.noLineBreak)}
       >
-        <b>일일 방문자</b>
+        <b>{title}</b>
       </Typography>
     </Box>
   );

@@ -4,6 +4,7 @@ import { all, call, put, takeLatest } from "redux-saga/effects";
 import postApi from "@src/api/postApi";
 import lectureApi from "@src/api/lectureApi";
 import tagApi from "@src/api/tagApi";
+import visitorApi from "@src/api/visitorApi";
 
 // ACTION TYPE
 const INITIALIZE = "MainReducer/INITIALIZE"; // 초기화
@@ -20,12 +21,20 @@ export const loadInitialData = createAction(LOAD_INITIAL_DATA);
 function* loadInitialDataSaga() {
   try {
     // all을 통해 Concurrent하게 호출된다.
-    const [recentRes, tagRes, lectureRes, postRes, viewRes] = yield all([
+    const [
+      recentRes,
+      tagRes,
+      lectureRes,
+      postRes,
+      viewRes,
+      visitorRes,
+    ] = yield all([
       call(postApi.recentPosts),
       call(tagApi.groupTags),
       call(lectureApi.recommandLectures),
       call(postApi.recommandPosts),
       call(postApi.mostViewPosts),
+      call(visitorApi.dayCount),
     ]);
 
     yield put({
@@ -36,6 +45,7 @@ function* loadInitialDataSaga() {
         recommandLectures: lectureRes.data,
         recommandPosts: postRes.data,
         mostViewPosts: viewRes.data,
+        dayCount: visitorRes.data,
       },
     });
   } catch (err) {
@@ -53,6 +63,7 @@ const initialState = {
   recommandLectures: null,
   recommandPosts: null,
   mostViewPosts: null,
+  dayCount: null,
   error: null,
 };
 
@@ -71,6 +82,7 @@ const mainReducer = handleActions(
           recommandLectures,
           recommandPosts,
           mostViewPosts,
+          dayCount,
         },
       },
     ) => ({
@@ -80,6 +92,7 @@ const mainReducer = handleActions(
       recommandLectures,
       recommandPosts,
       mostViewPosts,
+      dayCount,
       error: null,
     }),
     [LOAD_INITIAL_DATA_FAILURE]: (state, { payload }) => ({

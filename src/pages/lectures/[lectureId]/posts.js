@@ -6,6 +6,7 @@ import Banner from "@components/Banner";
 import PostEditButtonContainer from "@components/posts/write/PostEditButtonContainer";
 import PostListContainer from "@components/posts/read/PostListContainer";
 import { initialize, fetchPosts } from "@redux/sagas/PostSaga";
+import { setSSRCookies } from "@src/axios";
 
 function posts({ title }) {
   const dispatch = useDispatch();
@@ -31,23 +32,24 @@ function posts({ title }) {
   );
 }
 
-export const getServerSideProps = Store.getServerSideProps(
-  async ({ store, params }) => {
-    const { lectureId } = params;
+export const getServerSideProps = Store.getServerSideProps(async (context) => {
+  const { lectureId } = context.params;
 
-    // 강의의 포스트들과 강의 정보 전부 불러오기
-    store.dispatch(fetchPosts(lectureId));
-    store.dispatch(END);
-    await store.sagaTask.toPromise();
+  // 쿠키 설정
+  setSSRCookies(context);
 
-    // 강의 정보가 없을경우 404 반환
-    const state = store.getState();
-    if (!state.post.lectureInfo) {
-      return { notFound: true };
-    }
+  // 강의의 포스트들과 강의 정보 전부 불러오기
+  context.store.dispatch(fetchPosts(lectureId));
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
 
-    return { props: { title: state.post.lectureInfo.title } };
-  },
-);
+  // 강의 정보가 없을경우 404 반환
+  const state = context.store.getState();
+  if (!state.post.lectureInfo) {
+    return { notFound: true };
+  }
+
+  return { props: { title: state.post.lectureInfo.title } };
+});
 
 export default React.memo(posts);

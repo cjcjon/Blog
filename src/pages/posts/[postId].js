@@ -8,6 +8,7 @@ import PostViewerHeadContainer from "@components/posts/read/PostViewerHeadContai
 import PostViewerContentContainer from "@components/posts/read/PostViewerContentContainer";
 import PostViewerTOCContainer from "@components/posts/read/PostViewerTOCContainer";
 import { initialize, readPost } from "@redux/sagas/PostSaga";
+import { setSSRCookies } from "@src/axios";
 
 function PostViewer() {
   const dispatch = useDispatch();
@@ -50,22 +51,23 @@ function PostViewer() {
   );
 }
 
-export const getServerSideProps = Store.getServerSideProps(
-  async ({ store, params }) => {
-    const { postId } = params;
+export const getServerSideProps = Store.getServerSideProps(async (context) => {
+  const { postId } = context.params;
 
-    // 포스트 정보 불러오기
-    store.dispatch(readPost(postId));
-    store.dispatch(END);
-    await store.sagaTask.toPromise();
+  // 쿠키 설정
+  setSSRCookies(context);
 
-    const state = store.getState();
-    if (state.post.error && state.post.error.status === 404) {
-      return { notFound: true };
-    }
+  // 포스트 정보 불러오기
+  context.store.dispatch(readPost(postId));
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
 
-    return {};
-  },
-);
+  const state = context.store.getState();
+  if (state.post.error && state.post.error.status === 404) {
+    return { notFound: true };
+  }
+
+  return {};
+});
 
 export default React.memo(PostViewer);

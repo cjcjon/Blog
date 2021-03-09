@@ -11,9 +11,10 @@ import RecentPostContainer from "@src/components/main/recentPosts/RecentPostsCon
 import RecommandLecturesContainer from "@src/components/main/recommand/RecommandLecturesContainer";
 import RecommandPostsContainer from "@src/components/main/recommand/RecommandPostsContainer";
 import MostViewsContainer from "@src/components/main/mostViews/MostViewsContainer";
-import DailyVisitPanel from "@components/main/dailyVisits/DailyVisitPanel";
+import DailyVisitContainer from "@src/components/main/dailyVisits/DailyVisitContainer";
 import RecentCommentPanel from "@components/main/recentComments/RecentCommentPanel";
 import { useSizeStyles } from "@styles/useful.styles";
+import { setSSRCookies } from "@src/axios";
 
 const useStyles = makeStyles((theme) => ({
   contentsRoot: {
@@ -86,7 +87,7 @@ function index() {
             <MostViewsContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <DailyVisitPanel />
+            <DailyVisitContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
             <RecentCommentPanel />
@@ -112,14 +113,15 @@ function index() {
   );
 }
 
-export const getServerSideProps = Store.getServerSideProps(
-  async ({ store }) => {
-    // 초기 데이터 불러오기
-    store.dispatch(loadInitialData());
-    store.dispatch(END);
+export const getServerSideProps = Store.getServerSideProps(async (context) => {
+  // 쿠키 설정
+  setSSRCookies(context);
 
-    await store.sagaTask.toPromise();
-  },
-);
+  // 초기 데이터 불러오기
+  context.store.dispatch(loadInitialData());
+  context.store.dispatch(END);
+
+  await context.store.sagaTask.toPromise();
+});
 
 export default index;
