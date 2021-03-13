@@ -16,12 +16,13 @@ function QuillEditorContainer({ modify }) {
   );
 
   return (
-    <QuillEditor
-      modify={modify}
-      title={title}
-      body={body}
-      onChangeField={onChangeField}
-    />
+    <>
+      {!modify ? (
+        <QuillEditor title={title} body={body} onChangeField={onChangeField} />
+      ) : body ? (
+        <QuillEditor title={title} body={body} onChangeField={onChangeField} />
+      ) : null}
+    </>
   );
 }
 

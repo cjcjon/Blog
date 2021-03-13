@@ -30,11 +30,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function QuillEditor({ modify, title, body, onChangeField }) {
+function QuillEditor({ title, body, onChangeField }) {
   const classes = useStyles();
   const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
   const quillInstance = useRef(null);
-  const initialized = useRef(false);
 
   // 이미지 서버 저장용 핸들러
   const imageHandler = () => {
@@ -173,15 +172,11 @@ function QuillEditor({ modify, title, body, onChangeField }) {
           }
         }
       });
+
+      // 원본 저장
+      quillInstance.current.root.innerHTML = body;
     }
   }, [onChangeField]);
-
-  useEffect(() => {
-    if (modify && !initialized.current && quillInstance.current && body) {
-      quillInstance.current.root.innerHTML = body;
-      initialized.current = true;
-    }
-  }, [quillInstance, initialized, body]);
 
   // 타이틀 변경
   const onChangeTitle = (e) => {
