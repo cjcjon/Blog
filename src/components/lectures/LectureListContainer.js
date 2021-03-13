@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  FETCH_LECTURES,
   changeLectureDialogField,
   initializeLectureDialog,
 } from "@redux/sagas/LectureSaga";
@@ -9,8 +8,8 @@ import LectureList from "./LectureList";
 
 function LectureListContainer() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const lectureList = useSelector(({ lecture }) => lecture.lectureList);
-  const fetchLoading = useSelector(({ loading }) => loading[FETCH_LECTURES]);
 
   // Delete Dialog 열기
   const handleDeleteOpen = useCallback(
@@ -35,7 +34,7 @@ function LectureListContainer() {
 
   return (
     <LectureList
-      loading={fetchLoading}
+      hasAuth={user ? user.auth === 1 : false}
       lectureList={lectureList}
       onDeleteClick={handleDeleteOpen}
       onModifyClick={handleModifyOpen}

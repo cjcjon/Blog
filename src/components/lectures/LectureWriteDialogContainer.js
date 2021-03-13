@@ -14,6 +14,7 @@ import LectureFormDialog from "./LectureFormDialog";
 function LectureWriteDialogContainer() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const { writeDialog, nextLink, error } = useSelector(({ lecture }) => ({
     writeDialog: lecture.lectureDialog,
     nextLink: lecture.writeLink,
@@ -114,9 +115,11 @@ function LectureWriteDialogContainer() {
 
   return (
     <div style={{ marginBottom: "8px" }}>
-      <Button variant="outlined" color="primary" onClick={handleOpen}>
-        강의 추가
-      </Button>
+      {user && user.auth === 1 && (
+        <Button variant="outlined" color="primary" onClick={handleOpen}>
+          강의 추가
+        </Button>
+      )}
       <LoadingBackdrop open={writeLoading} />
       <LectureFormDialog
         open={writeDialog.open === "write"}

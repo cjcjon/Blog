@@ -27,6 +27,7 @@ function PostViewerContentContainer() {
     deleteErrorMsg: post.deleteFailureMsg,
   }));
   const deleteLoading = useSelector(({ loading }) => loading[DELETE_POST]);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     // 새로운 링크를 받아왔으면 링크로 이동
@@ -57,13 +58,15 @@ function PostViewerContentContainer() {
         <PostViewerContent
           postInfo={postInfo}
           actionButtons={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <PostViewerActionButtons
-              onEdit={onEdit}
-              onDelete={onDelete}
-              loading={deleteLoading}
-              deleteError={deleteErrorMsg}
-            />
+            user && user.auth === 1 ? (
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <PostViewerActionButtons
+                onEdit={onEdit}
+                onDelete={onDelete}
+                loading={deleteLoading}
+                deleteError={deleteErrorMsg}
+              />
+            ) : null
           }
           likes={
             // eslint-disable-next-line react/jsx-wrap-multilines

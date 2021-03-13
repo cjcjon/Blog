@@ -7,10 +7,11 @@ function PostEditButtonContainer() {
   const { lectureInfo } = useSelector(({ post }) => ({
     lectureInfo: post.lectureInfo,
   }));
+  const { user } = useSelector((state) => state.user);
 
   return (
     <>
-      {lectureInfo && (
+      {lectureInfo && user && user.auth === 1 && (
         <div
           style={{
             display: "flex",

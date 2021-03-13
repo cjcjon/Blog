@@ -54,6 +54,7 @@ function LectureCard({
   loading,
   href,
   lectureData,
+  hasAuth,
   onDeleteClick,
   onModifyClick,
 }) {
@@ -109,34 +110,38 @@ function LectureCard({
               alt="we don't have image"
               className={classes.cardMedia}
             />
-            <IconButton
-              aria-label="lecture-card-menu"
-              aria-controls="lectureMenu"
-              aria-haspopup="true"
-              className={classes.cardMediaButton}
-              onClick={handleMenuOpen}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="lectureMenu"
-              anchorEl={anchorEl}
-              keepMounted
-              PaperProps={{
-                style: {
-                  width: "96px",
-                },
-              }}
-              open={open}
-              onClose={handleMenuClose}
-            >
-              <MenuItem value={lectureData.id} onClick={onDeleteClick}>
-                Delete
-              </MenuItem>
-              <MenuItem value={lectureData.id} onClick={onModifyClick}>
-                Modify
-              </MenuItem>
-            </Menu>
+            {hasAuth === true && (
+              <>
+                <IconButton
+                  aria-label="lecture-card-menu"
+                  aria-controls="lectureMenu"
+                  aria-haspopup="true"
+                  className={classes.cardMediaButton}
+                  onClick={handleMenuOpen}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="lectureMenu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  PaperProps={{
+                    style: {
+                      width: "96px",
+                    },
+                  }}
+                  open={open}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem value={lectureData.id} onClick={onDeleteClick}>
+                    Delete
+                  </MenuItem>
+                  <MenuItem value={lectureData.id} onClick={onModifyClick}>
+                    Modify
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
             <div className={classes.cardContent}>
               <Typography variant="body2" color="textSecondary">
                 {lectureData.postCount}개의 포스트
