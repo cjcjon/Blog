@@ -2,7 +2,6 @@ import React, { useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { DELETE_POST, likePost, deletePost } from "@redux/sagas/PostSaga";
-import { setOriginalPost } from "@redux/sagas/WritePostSaga";
 import PostViewerContent from "./PostViewerContent";
 import PostViewerActionButtons from "./PostViewerActionButtons";
 import PostViewerLikes from "./PostViewerLikes";
@@ -43,8 +42,7 @@ function PostViewerContentContainer() {
 
   // 포스트 수정 버튼 누를때 호출
   const onEdit = useCallback(() => {
-    dispatch(setOriginalPost(postInfo));
-    router.push(`/posts/write?lectureId=${postInfo.lectureId}`);
+    router.push(`/posts/write?postId=${postInfo.id}`);
   }, [postInfo]);
 
   // 포스트 삭제

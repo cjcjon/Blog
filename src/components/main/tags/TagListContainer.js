@@ -36,4 +36,4 @@ function TagListContainer() {
   );
 }
 
-export default React.memo(TagListContainer);
+export default TagListContainer;

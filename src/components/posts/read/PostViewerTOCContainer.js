@@ -71,4 +71,4 @@ function PostViewerTOCContainer() {
   );
 }
 
-export default React.memo(PostViewerTOCContainer);
+export default PostViewerTOCContainer;

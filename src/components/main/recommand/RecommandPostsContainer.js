@@ -17,4 +17,4 @@ function RecommandPostsContainer() {
   );
 }
 
-export default React.memo(RecommandPostsContainer);
+export default RecommandPostsContainer;

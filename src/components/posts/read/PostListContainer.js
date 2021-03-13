@@ -11,4 +11,4 @@ function PostListContainer() {
   return <PostList lectureInfo={lectureInfo} postList={postList} />;
 }
 
-export default React.memo(PostListContainer);
+export default PostListContainer;

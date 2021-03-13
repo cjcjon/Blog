@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Accordion from "@material-ui/core/Accordion";
@@ -6,7 +7,6 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import LinkWrapper from "@components/links/LinkWrapper";
 import LinkHighlightWrapper from "@components/links/LinkHighlightWrapper";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 0.5rem",
   },
   lectureTitle: {
+    cursor: "pointer",
     fontWeight: "bold",
     "&:hover": {
       color: theme.palette.primary.main,
@@ -67,11 +68,11 @@ function PostViewerAccordion({ lectureInfo, postList }) {
           aria-controls="lecturePostList"
           id="lecturePostHeader"
         >
-          <LinkWrapper href={`/lectures/${lectureInfo.id}/posts`}>
+          <Link href={`/lectures/${lectureInfo.id}/posts`}>
             <Typography variant="h6" className={classes.lectureTitle}>
               {lectureInfo.title} 목차
             </Typography>
-          </LinkWrapper>
+          </Link>
         </AccordionSummary>
         <AccordionDetails>
           <ol className={classes.postList}>

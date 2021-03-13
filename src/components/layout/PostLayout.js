@@ -15,4 +15,4 @@ function PostLayout({ children }) {
   return <div className={classes.layoutRoot}>{children}</div>;
 }
 
-export default React.memo(PostLayout);
+export default PostLayout;

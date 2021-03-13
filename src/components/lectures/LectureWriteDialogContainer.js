@@ -136,4 +136,4 @@ function LectureWriteDialogContainer() {
   );
 }
 
-export default React.memo(LectureWriteDialogContainer);
+export default LectureWriteDialogContainer;

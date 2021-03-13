@@ -28,7 +28,7 @@ function LectureModifyDialogContainer() {
         router.push(nextLink.href);
       }
     }
-  }, [dispatch, nextLink]);
+  }, [nextLink]);
 
   // Dialog 끄기
   const handleClose = useCallback(() => {
@@ -121,4 +121,4 @@ function LectureModifyDialogContainer() {
   );
 }
 
-export default React.memo(LectureModifyDialogContainer);
+export default LectureModifyDialogContainer;

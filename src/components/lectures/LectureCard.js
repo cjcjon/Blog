@@ -10,7 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import HistoryIcon from "@material-ui/icons/History";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Skeleton from "@material-ui/lab/Skeleton";
 import LinkWrapper from "@components/links/LinkWrapper";
 import { useWordStyles } from "@styles/useful.styles";
 
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LectureCard({
-  loading,
   href,
   lectureData,
   hasAuth,
@@ -74,108 +72,77 @@ function LectureCard({
   }, []);
 
   return (
-    <>
-      {loading ? (
-        <Card className={classes.root} elevation={2}>
-          <Skeleton
-            variant="rect"
-            width="100%"
-            animation="wave"
-            className={classes.cardMedia}
-          />
-          <div className={classes.cardContent}>
-            <Skeleton width="100%" animation="wave">
-              <Typography variant="body2">.</Typography>
-            </Skeleton>
-            <Skeleton width="100%" animation="wave">
-              <Typography gutterBottom variant="h6">
-                .
-              </Typography>
-            </Skeleton>
-          </div>
-          <Divider />
-          <Grid container className={classes.cardBottom}>
-            <Grid item xs>
-              <Skeleton width="100%" animation="wave">
-                <Typography variant="body2">.</Typography>
-              </Skeleton>
-            </Grid>
+    <LinkWrapper href={href}>
+      <Card className={classes.root} elevation={2}>
+        <CardMedia
+          image={lectureData.thumbnail}
+          alt="we don't have image"
+          className={classes.cardMedia}
+        />
+        {hasAuth === true && (
+          <>
+            <IconButton
+              aria-label="lecture-card-menu"
+              aria-controls="lectureMenu"
+              aria-haspopup="true"
+              className={classes.cardMediaButton}
+              onClick={handleMenuOpen}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="lectureMenu"
+              anchorEl={anchorEl}
+              keepMounted
+              PaperProps={{
+                style: {
+                  width: "96px",
+                },
+              }}
+              open={open}
+              onClose={handleMenuClose}
+            >
+              <MenuItem value={lectureData.id} onClick={onDeleteClick}>
+                Delete
+              </MenuItem>
+              <MenuItem value={lectureData.id} onClick={onModifyClick}>
+                Modify
+              </MenuItem>
+            </Menu>
+          </>
+        )}
+        <div className={classes.cardContent}>
+          <Typography variant="body2" color="textSecondary">
+            {lectureData.postCount}개의 포스트
+          </Typography>
+          <Typography gutterBottom variant="h6" className={wordStyles.bold}>
+            {lectureData.title}
+          </Typography>
+        </div>
+        <Divider />
+        <Grid container className={classes.cardBottom}>
+          <Grid item xs>
+            <Typography variant="body2" color="textSecondary">
+              {lectureData.makeDate}
+            </Typography>
           </Grid>
-        </Card>
-      ) : (
-        <LinkWrapper href={href}>
-          <Card className={classes.root} elevation={2}>
-            <CardMedia
-              image={lectureData.thumbnail}
-              alt="we don't have image"
-              className={classes.cardMedia}
-            />
-            {hasAuth === true && (
-              <>
-                <IconButton
-                  aria-label="lecture-card-menu"
-                  aria-controls="lectureMenu"
-                  aria-haspopup="true"
-                  className={classes.cardMediaButton}
-                  onClick={handleMenuOpen}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="lectureMenu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  PaperProps={{
-                    style: {
-                      width: "96px",
-                    },
-                  }}
-                  open={open}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem value={lectureData.id} onClick={onDeleteClick}>
-                    Delete
-                  </MenuItem>
-                  <MenuItem value={lectureData.id} onClick={onModifyClick}>
-                    Modify
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
-            <div className={classes.cardContent}>
-              <Typography variant="body2" color="textSecondary">
-                {lectureData.postCount}개의 포스트
-              </Typography>
-              <Typography gutterBottom variant="h6" className={wordStyles.bold}>
-                {lectureData.title}
-              </Typography>
-            </div>
-            <Divider />
-            <Grid container className={classes.cardBottom}>
-              <Grid item xs>
-                <Typography variant="body2" color="textSecondary">
-                  {lectureData.makeDate}
-                </Typography>
-              </Grid>
-              {lectureData.updated && (
-                <Grid
-                  container
-                  item
-                  xs
-                  alignItems="center"
-                  wrap="wrap"
-                  justify="flex-end"
-                  className={classes.updated}
-                >
-                  Updated&nbsp;
-                  <HistoryIcon />
-                </Grid>
-              )}
+          {lectureData.updated && (
+            <Grid
+              container
+              item
+              xs
+              alignItems="center"
+              wrap="wrap"
+              justify="flex-end"
+              className={classes.updated}
+            >
+              Updated&nbsp;
+              <HistoryIcon />
             </Grid>
-          </Card>
-        </LinkWrapper>
-      )}
-    </>
+          )}
+        </Grid>
+      </Card>
+    </LinkWrapper>
   );
 }
 

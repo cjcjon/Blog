@@ -8,4 +8,4 @@ function PostViewerHeadContainer() {
   return <>{postInfo && <PostViewerHead post={postInfo} />}</>;
 }
 
-export default React.memo(PostViewerHeadContainer);
+export default PostViewerHeadContainer;

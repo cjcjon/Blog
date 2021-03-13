@@ -14,4 +14,4 @@ function TagWriterContainer() {
   return <TagWriter tags={tags} onChangeTags={onChangeTags} />;
 }
 
-export default React.memo(TagWriterContainer);
+export default TagWriterContainer;

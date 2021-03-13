@@ -17,4 +17,4 @@ function RecommandLecturesContainer() {
   );
 }
 
-export default React.memo(RecommandLecturesContainer);
+export default RecommandLecturesContainer;

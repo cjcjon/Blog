@@ -29,4 +29,4 @@ function PostEditButtonContainer() {
   );
 }
 
-export default React.memo(PostEditButtonContainer);
+export default PostEditButtonContainer;

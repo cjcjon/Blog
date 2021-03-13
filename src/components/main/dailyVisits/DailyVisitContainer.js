@@ -17,4 +17,4 @@ function DailyVisitContainer() {
   );
 }
 
-export default React.memo(DailyVisitContainer);
+export default DailyVisitContainer;

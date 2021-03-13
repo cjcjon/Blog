@@ -73,8 +73,6 @@ function RecentPostCard({ href, imageUrl, title, body, date }) {
   const classes = useStyles();
   const wordStyles = useWordStyles();
 
-  // TODO: Grid로 바꾸면 Responsive하게 할 수 있음. 단, 36%, 64% 같은 상세한 길이 표시 불가
-
   return (
     <LinkWrapper href={href}>
       <Card className={classes.root}>

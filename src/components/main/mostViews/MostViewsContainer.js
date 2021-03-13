@@ -17,4 +17,4 @@ function MostViewsContainer() {
   );
 }
 
-export default React.memo(MostViewsContainer);
+export default MostViewsContainer;

@@ -50,4 +50,4 @@ function LectureDeleteDialogContainer() {
   );
 }
 
-export default React.memo(LectureDeleteDialogContainer);
+export default LectureDeleteDialogContainer;

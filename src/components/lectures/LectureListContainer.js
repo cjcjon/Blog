@@ -42,4 +42,4 @@ function LectureListContainer() {
   );
 }
 
-export default React.memo(LectureListContainer);
+export default LectureListContainer;

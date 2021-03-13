@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const paths = [
-  { text: "Default", path: "/" },
+  { text: "Home", path: "/" },
   { text: "Lectures", path: "/lectures" },
 ];
 
@@ -43,4 +43,4 @@ function Navbar() {
   );
 }
 
-export default React.memo(Navbar);
+export default Navbar;

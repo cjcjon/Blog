@@ -23,4 +23,4 @@ function RecentPostsContainer() {
   );
 }
 
-export default React.memo(RecentPostsContainer);
+export default RecentPostsContainer;

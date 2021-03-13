@@ -30,10 +30,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function QuillEditor({ title, body, onChangeField }) {
+function QuillEditor({ modify, title, body, onChangeField }) {
   const classes = useStyles();
   const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
   const quillInstance = useRef(null);
+  const initialized = useRef(false);
 
   // 이미지 서버 저장용 핸들러
   const imageHandler = () => {
@@ -89,34 +90,34 @@ function QuillEditor({ title, body, onChangeField }) {
   };
 
   useEffect(() => {
-    const modules = {
-      syntax: {
-        // code highlighting에 line 넣는거 연구하고 싶으면 아래 사이트 참고
-        // https://programmer.help/blogs/write-your-own-highlight.js-line-number-plugin.html
-        highlight: (text) => hljs.highlightAuto(text).value,
-      },
-      // 더 많은 옵션은 https://quilljs.com/docs/modules/toolbar/ 참고
-      toolbar: {
-        container: [
-          [{ font: [] }],
-          [{ header: [1, 2, 3, false] }],
-          [{ size: ["small", false, "large", "huge"] }],
-          ["bold", "italic", "underline", "strike"],
-          ["blockquote", "code-block", "link", "image", "video"],
-          [{ list: "ordered" }, { list: "bullet" }],
-          [{ script: "sub" }, { script: "super" }],
-          [{ indent: "-1" }, { indent: "+1" }],
-          [{ color: [] }, { background: [] }],
-          [{ align: [] }],
-          ["clean"],
-        ],
-        handlers: {
-          image: imageHandler,
-        },
-      },
-    };
-
     if (typeof window === "object") {
+      const modules = {
+        syntax: {
+          // code highlighting에 line 넣는거 연구하고 싶으면 아래 사이트 참고
+          // https://programmer.help/blogs/write-your-own-highlight.js-line-number-plugin.html
+          highlight: (text) => hljs.highlightAuto(text).value,
+        },
+        // 더 많은 옵션은 https://quilljs.com/docs/modules/toolbar/ 참고
+        toolbar: {
+          container: [
+            [{ font: [] }],
+            [{ header: [1, 2, 3, false] }],
+            [{ size: ["small", false, "large", "huge"] }],
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block", "link", "image", "video"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+            ["clean"],
+          ],
+          handlers: {
+            image: imageHandler,
+          },
+        },
+      };
+
       // Quill 이미지와 비디오 크기 조절 모듈
       Quill.register(
         "modules/blotFormatter",
@@ -135,48 +136,52 @@ function QuillEditor({ title, body, onChangeField }) {
         }
       }
       Quill.register("formats/header", IdHeader);
-    }
 
-    quillInstance.current = new Quill(
-      quillElement.current,
-      {
-        theme: "snow",
-        placeholder: "내용을 작성하세요...",
-        modules,
-      },
-      [],
-    );
+      quillInstance.current = new Quill(
+        quillElement.current,
+        {
+          theme: "snow",
+          placeholder: "내용을 작성하세요...",
+          modules,
+        },
+        [],
+      );
 
-    // quill에 text-change 이벤트 등록
-    // quill에 변화가 생길 때마다 호출된다
-    const quill = quillInstance.current;
-    quill.on("text-change", (delta, oldDelta, source) => {
-      // 유저가 quill 조작할 때
-      if (source === "user") {
-        onChangeField({ key: "body", value: quill.root.innerHTML });
+      // quill에 text-change 이벤트 등록
+      // quill에 변화가 생길 때마다 호출된다
+      const quill = quillInstance.current;
+      quill.on("text-change", (delta, oldDelta, source) => {
+        // 유저가 quill 조작할 때
+        if (source === "user") {
+          onChangeField({ key: "body", value: quill.root.innerHTML });
 
-        // 이미지가 삭제되었는지 확인
-        const currentContents = quillInstance.current.getContents();
-        const diff = currentContents.diff(oldDelta);
-        const imageDelta = diff.ops
-          .filter((i) => i.insert && i.insert.image)
-          .map((i) => i.insert.image);
+          // 이미지가 삭제되었는지 확인
+          const currentContents = quillInstance.current.getContents();
+          const diff = currentContents.diff(oldDelta);
+          const imageDelta = diff.ops
+            .filter((i) => i.insert && i.insert.image)
+            .map((i) => i.insert.image);
 
-        // quill에서 삭제된 이미지들 서버에서 삭제
-        for (let i = 0; i < imageDelta.length; i += 1) {
-          // delete는 await 필요 없음
-          const imageName = imageDelta[i].substring(
-            imageDelta[i].lastIndexOf("/") + 1,
-            imageDelta[i].length,
-          );
-          postApi.deleteImage(imageName);
+          // quill에서 삭제된 이미지들 서버에서 삭제
+          for (let i = 0; i < imageDelta.length; i += 1) {
+            // delete는 await 필요 없음
+            const imageName = imageDelta[i].substring(
+              imageDelta[i].lastIndexOf("/") + 1,
+              imageDelta[i].length,
+            );
+            postApi.deleteImage(imageName);
+          }
         }
-      }
-    });
-
-    // body 저장
-    quillInstance.current.root.innerHTML = body;
+      });
+    }
   }, [onChangeField]);
+
+  useEffect(() => {
+    if (modify && !initialized.current && quillInstance.current && body) {
+      quillInstance.current.root.innerHTML = body;
+      initialized.current = true;
+    }
+  }, [quillInstance, initialized, body]);
 
   // 타이틀 변경
   const onChangeTitle = (e) => {

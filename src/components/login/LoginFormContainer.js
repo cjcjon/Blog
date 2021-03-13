@@ -58,4 +58,4 @@ function LoginFormContainer() {
   );
 }
 
-export default React.memo(LoginFormContainer);
+export default LoginFormContainer;
