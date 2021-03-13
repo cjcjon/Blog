@@ -16,7 +16,10 @@ function DailyVisitGraph({ data }) {
         margin={{ top: 8, bottom: 8, left: -12, right: 4 }}
       >
         <XAxis dataKey="day" interval="preserveStart" />
-        <YAxis domain={[() => 0, (dataMax) => dataMax * 1.5]} />
+        <YAxis
+          allowDecimals={false}
+          domain={[() => 0, (dataMax) => Math.ceil(dataMax * 1.5)]}
+        />
         <Tooltip />
         <Line type="monotone" dataKey="total" stroke="#007bff" name="방문자" />
       </LineChart>
