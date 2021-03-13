@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { END } from "redux-saga";
 import Divider from "@material-ui/core/Divider";
 import PostLayout from "@components/layout/PostLayout";
@@ -9,10 +9,9 @@ import PostViewerTOCContainer from "@components/posts/read/PostViewerTOCContaine
 import Store from "@redux/Store";
 import { setSSRCookies } from "@src/axios";
 import { checkLogin } from "@redux/sagas/UserSaga";
-import { initialize, readPost } from "@redux/sagas/PostSaga";
+import { readPost } from "@redux/sagas/PostSaga";
 
 function PostViewer() {
-  const dispatch = useDispatch();
   const error = useSelector(({ post }) => post.error);
 
   // 에러 발생시
@@ -31,13 +30,6 @@ function PostViewer() {
       </>
     );
   }
-
-  useEffect(() => {
-    return () => {
-      // 나갈때 포스트 관련 정보 전부 지우기
-      dispatch(initialize());
-    };
-  }, [dispatch]);
 
   return (
     <PostLayout>

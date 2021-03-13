@@ -1,5 +1,4 @@
 import { createAction, handleActions } from "redux-actions";
-import { HYDRATE } from "next-redux-wrapper";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import postApi from "@src/api/postApi";
 import lectureApi from "@src/api/lectureApi";
@@ -7,14 +6,11 @@ import tagApi from "@src/api/tagApi";
 import visitorApi from "@src/api/visitorApi";
 
 // ACTION TYPE
-const INITIALIZE = "MainReducer/INITIALIZE"; // 초기화
-
 const LOAD_INITIAL_DATA = "MainReducer/LOAD_INITIAL_DATA"; // 메인 화면 초기 데이터 설정
 const LOAD_INITIAL_DATA_SUCCESS = "MainReducer/LOAD_INITIAL_DATA_SUCCESS"; // 메인 화면 초기 데이터 불러오기 성공
 const LOAD_INITIAL_DATA_FAILURE = "MainReducer/LOAD_INITIAL_DATA_FAILURE"; // 메인 화면 초기 데이터 불러오기 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
-export const initialize = createAction(INITIALIZE);
 export const loadInitialData = createAction(LOAD_INITIAL_DATA);
 
 // 초기 데이터 불러오는 사가
@@ -68,11 +64,8 @@ const initialState = {
 };
 
 // 리듀서 (state값만 변경된다)
-// 무조건 HYDRATE 있어야 한다. (next.js의 SSR을 위해서 next-redux-wrapper에서 추가한 action)
 const mainReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({ ...state, ...action.payload.main }),
-    [INITIALIZE]: () => initialState,
     [LOAD_INITIAL_DATA_SUCCESS]: (
       state,
       {

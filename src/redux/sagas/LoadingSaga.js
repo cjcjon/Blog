@@ -1,5 +1,4 @@
 import { createAction, handleActions } from "redux-actions";
-import { HYDRATE } from "next-redux-wrapper";
 
 const START_LOADING = "LoadingReducer/START_LOADING";
 const FINISH_LOADING = "LoadingReducer/FINISH_LOADING";
@@ -20,7 +19,6 @@ const initialState = {};
 
 const loadingReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({ ...state, ...action.payload.loading }),
     [START_LOADING]: (state, action) => ({ ...state, [action.payload]: true }),
     [FINISH_LOADING]: (state, action) => ({
       ...state,

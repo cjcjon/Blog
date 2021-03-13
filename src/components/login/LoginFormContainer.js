@@ -1,12 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  initializeForm,
-  changeField,
-  userLogin,
-  USER_LOGIN,
-} from "@redux/sagas/LoginSaga";
+import { changeField, userLogin, USER_LOGIN } from "@redux/sagas/LoginSaga";
 import LoadingBackdrop from "@components/commons/LoadingBackdrop";
 import LoginForm from "./LoginForm";
 
@@ -22,11 +17,6 @@ function LoginFormContainer() {
     }),
   );
   const loginLoading = useSelector(({ loading }) => loading[USER_LOGIN]);
-
-  // 처음에 들어오면 항상 초기화
-  useEffect(() => {
-    dispatch(initializeForm());
-  }, [dispatch]);
 
   // 로그인으로 링크 돌려받았으면 이동
   useEffect(() => {

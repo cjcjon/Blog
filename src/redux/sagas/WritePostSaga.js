@@ -1,10 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
-import { HYDRATE } from "next-redux-wrapper";
 import { call, put, takeLatest } from "redux-saga/effects";
 import postApi from "@src/api/postApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
-const INITIALIZE = "WritePostReducer/INITIALIZE"; // 내용 초기화
 const SET_ORIGINAL_POST = "WritePostReducer/SET_ORIGINAL_POST"; // 초기 포스트 정보 입력
 const CHANGE_FIELD = "WritePostReducer/CHANGE_FIELD"; // key 값 변경
 
@@ -16,12 +14,14 @@ export const MODIFY = "WritePostReducer/MODIFY"; // 포스트 수정
 const MODIFY_SUCCESS = "WritePostReducer/MODIFY_SUCCESS"; // 포스트 수정 성공
 const MODIFY_FAILURE = "WritePostReducer/MODIFY_FAILURE"; // 포스트 수정 실패
 
-export const initialize = createAction(INITIALIZE);
 export const setOriginalPost = createAction(
   SET_ORIGINAL_POST,
   (postInfo) => postInfo,
 );
-export const changeField = createAction(CHANGE_FIELD);
+export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
+  key,
+  value,
+}));
 export const write = createAction(WRITE, (formData) => formData);
 export const modify = createAction(MODIFY, (formData) => formData);
 
@@ -86,11 +86,6 @@ const initialState = {
 
 const writePostReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({
-      ...state,
-      ...action.payload.writePost,
-    }),
-    [INITIALIZE]: () => initialState,
     [SET_ORIGINAL_POST]: (state, { payload: postInfo }) => ({
       ...state,
       originalPostId: postInfo.id,

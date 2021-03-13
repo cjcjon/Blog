@@ -1,13 +1,10 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
-import { HYDRATE } from "next-redux-wrapper";
-import { call, delay, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import lectureApi from "@src/api/lectureApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
-const INITIALIZE = "LectureReducer/INITIALIZE";
-
 export const FETCH_LECTURES = "LectureReducer/FETCH_LECTURES"; // 강의 전체 불러오기
 const FETCH_LECTURES_SUCCESS = "LectureReducer/FETCH_LECTURES_SUCCESS"; // 강의 전체 불러오기 성공
 const FETCH_LECTURES_FAILURE = "LectureReducer/FETCH_LECTURES_FAILURE"; // 강의 전체 불러오기 실패
@@ -29,7 +26,6 @@ const MODIFY_LECTURE_SUCCESS = "LectureReducer/MODIFY_LECTURE_SUCCESS"; // 강�
 const MODIFY_LECTURE_FAILURE = "LectureReducer/MODIFY_LECTURE_FAILURE"; // 강의 수정 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
-export const initialize = createAction(INITIALIZE);
 export const fetchLectures = createAction(FETCH_LECTURES);
 export const initializeLectureDialog = createAction(INITIALIZE_LECTURE_DIALOG);
 export const changeLectureDialogField = createAction(
@@ -53,9 +49,6 @@ function* fetchLecturesSaga() {
   try {
     // api 호출
     const lectureList = yield call(lectureApi.lectureList);
-
-    // 무조건 1초 이상 대기
-    yield delay(1000);
 
     // 성공
     yield put({
@@ -168,8 +161,6 @@ const initialState = {
 // 무조건 HYDRATE 있어야 한다. (next.js의 SSR을 위해서 next-redux-wrapper에서 추가한 action)
 const lectureReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({ ...state, ...action.payload.lecture }),
-    [INITIALIZE]: () => initialState,
     [FETCH_LECTURES_SUCCESS]: (state, { payload }) => ({
       ...state,
       lectureList: payload,

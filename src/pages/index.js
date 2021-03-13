@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { END } from "redux-saga";
-import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSizeStyles } from "@styles/useful.styles";
 import Grid from "@material-ui/core/Grid";
@@ -14,7 +13,7 @@ import DailyVisitContainer from "@src/components/main/dailyVisits/DailyVisitCont
 import Store from "@redux/Store";
 import { setSSRCookies } from "@src/axios";
 import { checkLogin } from "@redux/sagas/UserSaga";
-import { initialize, loadInitialData } from "@redux/sagas/MainSaga";
+import { loadInitialData } from "@redux/sagas/MainSaga";
 
 const useStyles = makeStyles((theme) => ({
   contentsRoot: {
@@ -40,16 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function index() {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const sizeStyles = useSizeStyles();
-
-  useEffect(() => {
-    return () => {
-      // 나갈 때 main saga 초기화
-      dispatch(initialize());
-    };
-  }, [dispatch]);
 
   return (
     <>

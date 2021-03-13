@@ -1,14 +1,11 @@
 import { createAction, handleActions } from "redux-actions";
 import produce from "immer";
-import { HYDRATE } from "next-redux-wrapper";
 import { call, put, takeLatest } from "redux-saga/effects";
 import lectureApi from "@src/api/lectureApi";
 import postApi from "@src/api/postApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
-const INITIALIZE = "PostReducer/INITIALIZE"; // 포스트 데이터 초기화
-
 export const FETCH_POSTS = "PostReducer/FETCH_POSTS"; // 강의 포스트 전체 불러오기
 const FETCH_POSTS_SUCCESS = "PostReducer/FETCH_POSTS_SUCCESS"; // 강의 포스트 전체 불러오기 성공
 const FETCH_POSTS_FAILURE = "PostReducer/FETCH_POSTS_FAILURE"; // 강의 포스트 전체 불러오기 실패
@@ -26,7 +23,6 @@ const DELETE_POST_SUCCESS = "PostReducer/DELETE_POST_SUCCESS"; // 포스트 삭�
 const DELETE_POST_FAILURE = "PostReducer/DELETE_POST_FAILURE"; // 포스트 삭제 실패
 
 // ACTION (타입과 payload들이 저장되는 object)
-export const initialize = createAction(INITIALIZE);
 export const fetchPosts = createAction(FETCH_POSTS, (lectureId) => lectureId);
 export const readPost = createAction(READ_POST, (postId) => postId);
 export const likePost = createAction(LIKE_POST, (postId) => postId);
@@ -154,11 +150,8 @@ const initialState = {
 };
 
 // 리듀서 (state값만 변경된다)
-// 무조건 HYDRATE 있어야 한다. (next.js의 SSR을 위해서 next-redux-wrapper에서 추가한 action)
 const postReducer = handleActions(
   {
-    [HYDRATE]: (state, action) => ({ ...state, ...action.payload.post }),
-    [INITIALIZE]: () => initialState,
     [FETCH_POSTS_SUCCESS]: (state, { payload: { lecture, posts } }) => ({
       ...state,
       lectureInfo: lecture,
