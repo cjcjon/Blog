@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import LinkWrapper from "@components/links/LinkWrapper";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "@redux/sagas/UserSaga";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Appbar() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
+  const onLogout = useCallback(() => {
+    dispatch(userLogout());
+  }, [dispatch]);
 
   return (
     <AppBar position="static" elevation={0} className={classes.root}>
@@ -40,10 +49,21 @@ function Appbar() {
         <IconButton aria-label="search">
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" className={classes.loginButton}>
-          로그인
-        </Button>
-        {/* TODO: 로그인 했을경우 로그아웃만 띄우기 */}
+        {user ? (
+          <Button
+            variant="outlined"
+            className={classes.loginButton}
+            onClick={onLogout}
+          >
+            로그아웃
+          </Button>
+        ) : (
+          <LinkWrapper href="/login">
+            <Button variant="outlined" className={classes.loginButton}>
+              로그인
+            </Button>
+          </LinkWrapper>
+        )}
       </Toolbar>
     </AppBar>
   );
