@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { END } from "redux-saga";
 import { useDispatch } from "react-redux";
-import Store from "@redux/Store";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSizeStyles } from "@styles/useful.styles";
 import Grid from "@material-ui/core/Grid";
 import Banner from "@src/components/Banner";
-import { initialize, loadInitialData } from "@redux/sagas/MainSaga";
 import TagListContainer from "@src/components/main/tags/TagListContainer";
 import RecentPostContainer from "@src/components/main/recentPosts/RecentPostsContainer";
 import RecommandLecturesContainer from "@src/components/main/recommand/RecommandLecturesContainer";
 import RecommandPostsContainer from "@src/components/main/recommand/RecommandPostsContainer";
 import MostViewsContainer from "@src/components/main/mostViews/MostViewsContainer";
 import DailyVisitContainer from "@src/components/main/dailyVisits/DailyVisitContainer";
-import RecentCommentPanel from "@components/main/recentComments/RecentCommentPanel";
-import { useSizeStyles } from "@styles/useful.styles";
+import Store from "@redux/Store";
 import { setSSRCookies } from "@src/axios";
+import { checkLogin } from "@redux/sagas/UserSaga";
+import { initialize, loadInitialData } from "@redux/sagas/MainSaga";
 
 const useStyles = makeStyles((theme) => ({
   contentsRoot: {
@@ -89,9 +89,6 @@ function index() {
           <Grid item xs={12} sm={6}>
             <DailyVisitContainer />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <RecentCommentPanel />
-          </Grid>
         </Grid>
         <Grid
           container
@@ -116,6 +113,15 @@ function index() {
 export const getServerSideProps = Store.getServerSideProps(async (context) => {
   // 쿠키 설정
   setSSRCookies(context);
+
+  // 로그인 정보 가져오기
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const token = cookie
+    ? cookie.replace(/(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    : null;
+  if (token) {
+    context.store.dispatch(checkLogin());
+  }
 
   // 초기 데이터 불러오기
   context.store.dispatch(loadInitialData());

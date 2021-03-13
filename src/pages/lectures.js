@@ -1,24 +1,16 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { END } from "redux-saga";
 import Banner from "@components/Banner";
-import LectureWriteDialogContainer from "@src/components/lectures/LectureWriteDialogContainer";
-import LectureDeleteDialogContainer from "@src/components/lectures/LectureDeleteDialogContainer";
-import LectureModifyDialogContainer from "@src/components/lectures/LectureModifyDialogContainer";
-import LectureListContainer from "@src/components/lectures/LectureListContainer";
-import { initialize, fetchLectures } from "@redux/sagas/LectureSaga";
+import LectureWriteDialogContainer from "@components/lectures/LectureWriteDialogContainer";
+import LectureDeleteDialogContainer from "@components/lectures/LectureDeleteDialogContainer";
+import LectureModifyDialogContainer from "@components/lectures/LectureModifyDialogContainer";
+import LectureListContainer from "@components/lectures/LectureListContainer";
+import Store from "@redux/Store";
+import { setSSRCookies } from "@src/axios";
+import { checkLogin } from "@redux/sagas/UserSaga";
+import { fetchLectures } from "@redux/sagas/LectureSaga";
 
 function lectures() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // 강의 데이터 불러오기
-    dispatch(fetchLectures());
-
-    return () => {
-      dispatch(initialize());
-    };
-  }, [dispatch]);
-
   return (
     <>
       {/* 그림 배너 */}
@@ -39,4 +31,24 @@ function lectures() {
   );
 }
 
-export default React.memo(lectures);
+export const getServerSideProps = Store.getServerSideProps(async (context) => {
+  // 쿠키 설정
+  setSSRCookies(context);
+
+  // 로그인 정보 가져오기
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const token = cookie
+    ? cookie.replace(/(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    : null;
+  if (token) {
+    context.store.dispatch(checkLogin());
+  }
+
+  // 강의 데이터 불러오기
+  context.store.dispatch(fetchLectures());
+
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
+
+export default lectures;

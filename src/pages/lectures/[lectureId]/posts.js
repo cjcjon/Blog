@@ -1,23 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { END } from "redux-saga";
-import { useDispatch } from "react-redux";
-import Store from "@redux/Store";
 import Banner from "@components/Banner";
 import PostEditButtonContainer from "@components/posts/write/PostEditButtonContainer";
 import PostListContainer from "@components/posts/read/PostListContainer";
-import { initialize, fetchPosts } from "@redux/sagas/PostSaga";
+import Store from "@redux/Store";
 import { setSSRCookies } from "@src/axios";
+import { checkLogin } from "@redux/sagas/UserSaga";
+import { fetchPosts } from "@redux/sagas/PostSaga";
 
 function posts({ title }) {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      // 나갈 때 데이터 전부 지우기
-      dispatch(initialize());
-    };
-  }, [dispatch]);
-
   return (
     <>
       {/* 강의 제목 보여주는 배너 */}
@@ -33,12 +24,20 @@ function posts({ title }) {
 }
 
 export const getServerSideProps = Store.getServerSideProps(async (context) => {
-  const { lectureId } = context.params;
-
   // 쿠키 설정
   setSSRCookies(context);
 
+  // 로그인 정보 가져오기
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const token = cookie
+    ? cookie.replace(/(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    : null;
+  if (token) {
+    context.store.dispatch(checkLogin());
+  }
+
   // 강의의 포스트들과 강의 정보 전부 불러오기
+  const { lectureId } = context.params;
   context.store.dispatch(fetchPosts(lectureId));
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
@@ -52,4 +51,4 @@ export const getServerSideProps = Store.getServerSideProps(async (context) => {
   return { props: { title: state.post.lectureInfo.title } };
 });
 
-export default React.memo(posts);
+export default posts;
