@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import PostViewerHead from "./PostViewerHead";
 
 function PostViewerHeadContainer() {
-  const { postInfo } = useSelector(({ post }) => ({
-    postInfo: post.postInfo,
-  }));
+  const postInfo = useSelector(({ post }) => post.postInfo);
 
   return <>{postInfo && <PostViewerHead post={postInfo} />}</>;
 }
