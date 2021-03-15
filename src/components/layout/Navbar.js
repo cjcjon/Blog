@@ -19,7 +19,7 @@ const paths = [
   { text: "Lectures", path: "/lectures" },
 ];
 
-const externalPaths = [{ text: "Github", path: "https://github.com" }];
+const externalPaths = [{ text: "Github", path: "https://github.com/cjcjon" }];
 
 function Navbar() {
   const classes = useStyles();
