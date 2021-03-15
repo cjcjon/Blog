@@ -10,12 +10,12 @@ import { setSSRCookies } from "@src/axios";
 import { checkLogin } from "@redux/sagas/UserSaga";
 import { loadOriginalPost } from "@redux/sagas/WritePostSaga";
 
-function write({ modify }) {
+function write({ originalPost }) {
   const router = useRouter();
 
   return (
     <PostLayout>
-      <QuillEditorContainer modify={modify} />
+      <QuillEditorContainer originalPost={originalPost} />
       <TagWriterContainer />
       <WritePostButtonsContainer
         lectureId={router.query.lectureId}
@@ -39,6 +39,7 @@ export const getServerSideProps = Store.getServerSideProps(async (context) => {
   }
 
   let modify = false;
+  let originalPost = null;
   // 수정일경우
   if (context.query.postId) {
     context.store.dispatch(loadOriginalPost(context.query.postId));
@@ -48,13 +49,27 @@ export const getServerSideProps = Store.getServerSideProps(async (context) => {
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 
-  // 유저 정보 없거나 권한 없으면 잘못된 상태임
   const state = context.store.getState();
+
+  // check 에러 발생시 잘못된 토큰이므로 삭제
+  if (context.store.getState().user.checkError) {
+    context.res.setHeader("Set-Cookie", "access_token=deleted; Max-Age=-1");
+    context.res.end();
+    return {};
+  }
+
+  // 유저 정보 없거나 권한 없으면 잘못된 상태임
   if (!state.user.user || state.user.user.auth !== 1) {
+    // 메인 페이지로 돌아가기
     return { redirect: { destination: "/", permanent: false } };
   }
 
-  return { props: { modify } };
+  // 수정이면 원본 body 저장
+  if (modify) {
+    originalPost = state.writePost.body;
+  }
+
+  return { props: { originalPost } };
 });
 
 export default write;
