@@ -42,8 +42,14 @@ export const getServerSideProps = Store.getServerSideProps(async (context) => {
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 
-  // 강의 정보가 없을경우 404 반환
+  // check 에러 발생시 잘못된 토큰이므로 삭제 및 다시 로그인
   const state = context.store.getState();
+  if (state.user.checkError) {
+    context.res.setHeader("Set-Cookie", "access_token=deleted; Max-Age=-1");
+    context.res.end();
+  }
+
+  // 강의 정보가 없을경우 404 반환
   if (!state.post.lectureInfo) {
     return { notFound: true };
   }
