@@ -60,12 +60,7 @@ function Banner({ imageUrl, text }) {
         classes.rootBase,
         imageUrl ? classes.whiteText : classes.titleText,
       )}
-      style={
-        // TODO: imageUrl로 불러오게 만들기
-        imageUrl
-          ? { backgroundImage: "url(https://source.unsplash.com/random)" }
-          : {}
-      }
+      style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : {}}
     >
       {imageUrl && <Box className={classes.blurBox} />}
       {text && (
