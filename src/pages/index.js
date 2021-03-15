@@ -45,7 +45,7 @@ function index() {
   return (
     <>
       {/* 그림 배너 */}
-      <Banner imageUrl="test" text="마구잡이 블로그" />
+      <Banner imageUrl="/banner.jpg" text="마구잡이 블로그" />
 
       {/* 최근 작성 글 패널 */}
       <RecentPostContainer />
