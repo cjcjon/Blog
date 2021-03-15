@@ -52,9 +52,11 @@ function Appbar() {
           </Typography>
         </Link>
         <div className={classes.blank} />
-        <IconButton aria-label="search">
-          <SearchIcon />
-        </IconButton>
+        <Link href="/search">
+          <IconButton aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Link>
         {user ? (
           <Button
             variant="outlined"

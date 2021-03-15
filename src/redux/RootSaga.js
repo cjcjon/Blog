@@ -8,6 +8,7 @@ import postReducer, { postSaga } from "./sagas/PostSaga";
 import writePostReducer, { writePostSaga } from "./sagas/WritePostSaga";
 import loginReducer, { loginSaga } from "./sagas/LoginSaga";
 import userReducer, { userSaga } from "./sagas/UserSaga";
+import searchReducer, { searchSaga } from "./sagas/SearchSaga";
 
 // combineReducer는 여러 리듀서를 하나로 합쳐주는 역할을 합니다
 const rootReducer = (state, action) => {
@@ -23,6 +24,7 @@ const rootReducer = (state, action) => {
         loading: loadingReducer,
         login: loginReducer,
         user: userReducer,
+        search: searchReducer,
       });
       return combined(state, action);
     }
@@ -38,6 +40,7 @@ export function* rootSaga() {
     writePostSaga(),
     loginSaga(),
     userSaga(),
+    searchSaga(),
   ]);
 }
 
