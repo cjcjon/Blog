@@ -7,6 +7,7 @@ import Layout from "@components/layout/Layout";
 import theme from "@src/theme";
 import "@styles/globals.scss";
 import Store from "@redux/Store";
+import visitorApi from "@src/api/visitorApi";
 
 function MyApp(props) {
   const { Component, pageProps } = props;
@@ -18,6 +19,20 @@ function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+
+  React.useEffect(() => {
+    // visit 확인
+    const visitCookie = document.cookie.replace(
+      /(?:(?:^|.*;\s*)visitDate\s*=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );
+
+    if (!visitCookie) {
+      visitorApi.visit().catch(() => {
+        console.log("방문 정보 저장에 실패했습니다");
+      });
+    }
+  });
 
   return (
     <>
