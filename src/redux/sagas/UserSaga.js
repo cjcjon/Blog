@@ -4,11 +4,11 @@ import userApi from "@src/api/userApi";
 import { startLoading, finishLoading } from "./LoadingSaga";
 
 // ACTION TYPE
-export const CHECK_LOGIN = "LoginReducer/CHECK_LOGIN"; // 로그인 상태 검사
-const CHECK_LOGIN_SUCCESS = "LoginReducer/CHECK_LOGIN_SUCCESS"; // 로그인 검사 성공
-const CHECK_LOGIN_FAILURE = "LoginReducer/CHECK_LOGIN_FAILURE"; // 로그인 검사 실패
+export const CHECK_LOGIN = "UserReducer/CHECK_LOGIN"; // 로그인 상태 검사
+const CHECK_LOGIN_SUCCESS = "UserReducer/CHECK_LOGIN_SUCCESS"; // 로그인 검사 성공
+const CHECK_LOGIN_FAILURE = "UserReducer/CHECK_LOGIN_FAILURE"; // 로그인 검사 실패
 
-export const USER_LOGOUT = "LoginReducer/USER_LOGOUT"; // 로그아웃
+export const USER_LOGOUT = "UserReducer/USER_LOGOUT"; // 로그아웃
 
 // ACTION (타입과 payload들이 저장되는 object)
 export const checkLogin = createAction(CHECK_LOGIN);
