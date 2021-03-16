@@ -48,7 +48,7 @@ function* fetchPostsSaga({ payload: lectureId }) {
     // 실패
     yield put({
       type: FETCH_POSTS_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -81,12 +81,7 @@ function* readPostSaga({ payload: postId }) {
     // 실패
     yield put({
       type: READ_POST_FAILURE,
-      payload: {
-        status: err.response.status,
-        name: err.name,
-        message: err.response.data,
-        stack: err.stack,
-      },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -108,7 +103,7 @@ function* likePostSaga({ payload: postId }) {
   } catch (err) {
     yield put({
       type: LIKE_POST_FAILURE,
-      payload: err.response.data,
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -130,7 +125,7 @@ function* deletePostSaga({ payload: postId }) {
   } catch (err) {
     yield put({
       type: DELETE_POST_FAILURE,
-      payload: err.response.data,
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -170,6 +165,7 @@ const postReducer = handleActions(
       lectureInfo: lecture,
       postList: posts,
       postInfo,
+      error: null,
     }),
     [READ_POST_FAILURE]: (state, { payload }) => ({
       ...state,

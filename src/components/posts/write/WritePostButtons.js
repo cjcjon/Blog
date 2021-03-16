@@ -40,9 +40,7 @@ function WritePostButtons({ onSubmit, onCancel, error }) {
       >
         취소
       </Button>
-      {error && (
-        <div className={errorStyles.defaultError}>전송에 실패하였습니다</div>
-      )}
+      {error && <div className={errorStyles.defaultError}>{error}</div>}
     </div>
   );
 }

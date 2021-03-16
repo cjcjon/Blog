@@ -62,7 +62,7 @@ function SearchBar({ searchName, handleChange, onSubmit, error }) {
           className={clsx(classes.error, errorStyles.defaultError)}
           style={{ marginTop: "1rem" }}
         >
-          {error.message}
+          {error}
         </div>
       )}
     </>

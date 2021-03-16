@@ -30,9 +30,7 @@ function LectureDeleteDialog({
         <DialogContentText id="deleteDialogDescription">
           {desc}
         </DialogContentText>
-        {error && (
-          <div className={errorStyles.defaultError}>전송에 실패하였습니다</div>
-        )}
+        {error && <div className={errorStyles.defaultError}>{error}</div>}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">

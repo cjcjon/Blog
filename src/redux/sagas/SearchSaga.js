@@ -34,7 +34,7 @@ function* searchPostSaga({ payload: tagName }) {
     // 실패
     yield put({
       type: SEARCH_POST_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
