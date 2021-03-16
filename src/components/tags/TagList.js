@@ -37,7 +37,12 @@ function TagList({ responsive, tags }) {
   return (
     <div className={clsx(responsive ? classes.listResponsive : classes.list)}>
       {tags.map((data) => (
-        <TagChip key={data.tag} href="/" text={data.tag} number={data.count} />
+        <TagChip
+          key={data.tag}
+          href={`/search?searchKey=${data.tag}`}
+          text={data.tag}
+          number={data.count}
+        />
       ))}
     </div>
   );
