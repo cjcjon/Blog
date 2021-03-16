@@ -103,7 +103,7 @@ function* likePostSaga({ payload: postId }) {
 
     yield put({
       type: LIKE_POST_SUCCESS,
-      payload: res.likes,
+      payload: res.data.likes,
     });
   } catch (err) {
     yield put({
