@@ -40,3 +40,12 @@ export const useWordStyles = makeStyles(() => ({
     fontWeight: "bold",
   },
 }));
+
+export const useErrorStyles = makeStyles((theme) => ({
+  defaultError: {
+    color: theme.palette.error.main,
+    textAlign: "center",
+    fontSize: "0.875rem",
+    marginTop: "1rem",
+  },
+}));

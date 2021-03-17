@@ -1,14 +1,19 @@
-import Grid from "@material-ui/core/Grid";
+import React from "react";
+import { END } from "redux-saga";
 import { makeStyles } from "@material-ui/core/styles";
-import Banner from "@src/components/Banner";
-import RecentPanel from "@components/main/recentPosts/RecentPanel";
-import TagPanel from "@components/tags/TagPanel";
-import RecommandSeriesPanel from "@src/components/main/recommand/RecommandSeriesPanel";
-import RecommandPostPanel from "@src/components/main/recommand/RecommandPostPanel";
-import MostViewedPanel from "@components/main/mostViewed/MostViewedPanel";
-import DailyVisitPanel from "@components/main/dailyVisits/DailyVisitPanel";
-import RecentCommentPanel from "@components/main/recentComments/RecentCommentPanel";
 import { useSizeStyles } from "@styles/useful.styles";
+import Grid from "@material-ui/core/Grid";
+import Banner from "@src/components/Banner";
+import TagListContainer from "@src/components/main/tags/TagListContainer";
+import RecentPostContainer from "@src/components/main/recentPosts/RecentPostsContainer";
+import RecommandLecturesContainer from "@src/components/main/recommand/RecommandLecturesContainer";
+import RecommandPostsContainer from "@src/components/main/recommand/RecommandPostsContainer";
+import MostViewsContainer from "@src/components/main/mostViews/MostViewsContainer";
+import DailyVisitContainer from "@src/components/main/dailyVisits/DailyVisitContainer";
+import Store from "@redux/Store";
+import { setSSRCookies } from "@src/axios";
+import { checkLogin } from "@redux/sagas/UserSaga";
+import { loadInitialData } from "@redux/sagas/MainSaga";
 
 const useStyles = makeStyles((theme) => ({
   contentsRoot: {
@@ -40,19 +45,19 @@ function index() {
   return (
     <>
       {/* 그림 배너 */}
-      <Banner imageUrl="test" text="마구잡이 블로그" />
+      <Banner imageUrl="/banner.jpg" text="마구잡이 블로그" />
 
       {/* 최근 작성 글 패널 */}
-      <RecentPanel />
+      <RecentPostContainer />
 
       {/* 
         표시될 하부 컴포넌트들
-        1. About (끝)
-        2. Tags (끝)
-        3. Most viewed pages
-        4. Recent comments
-        5. Daily visitors diagram
-        6. Social (해야함)
+        1. 추천 강의 목록
+        2. 추천 포스트 목록
+        3. 조회수 많은 포스트 목록
+        4. 일일 방문자
+        5. 최신 댓글 목록
+        6. 태그 목록
       */}
       <Grid container spacing={2} className={classes.contentsRoot}>
         <Grid
@@ -64,19 +69,16 @@ function index() {
           className={classes.leftContents}
         >
           <Grid item xs={12} sm={6}>
-            <RecommandSeriesPanel />
+            <RecommandLecturesContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <RecommandPostPanel />
+            <RecommandPostsContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <MostViewedPanel />
+            <MostViewsContainer />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <DailyVisitPanel />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <RecentCommentPanel />
+            <DailyVisitContainer />
           </Grid>
         </Grid>
         <Grid
@@ -91,87 +93,39 @@ function index() {
           className={classes.rightContents}
         >
           <Grid item className={sizeStyles.fullWidth}>
-            <TagPanel />
+            <TagListContainer />
           </Grid>
         </Grid>
       </Grid>
-
-      {/* {responsiveMatch ? (
-        <Grid container spacing={2} className={classes.contentsRoot}>
-          <Grid container item spacing={2} xs={9} style={{ margin: "0" }}>
-            <Grid item xs={6}>
-              <RecommandSeriesPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <RecommandPostPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <MostViewedPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <DailyVisitPanel />
-            </Grid>
-            <Grid item xs={6}>
-              <RecentCommentPanel />
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="stretch"
-            spacing={2}
-            xs={3}
-            style={{ margin: "0" }}
-          >
-            <Grid item>
-              <About />
-            </Grid>
-            <Grid item>
-              <SocialPanel />
-            </Grid>
-            <Grid item>
-              <TagPanel responsiveMatch={responsiveMatch} />
-            </Grid>
-          </Grid>
-        </Grid>
-      ) : (
-        <Grid
-          container
-          direction="column"
-          justify="flex-start"
-          alignItems="stretch"
-          spacing={2}
-          className={classes.contentsRoot}
-        >
-          <Grid item className={sizeStyles.fullWidth}>
-            <About />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <TagPanel responsiveMatch={responsiveMatch} />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecommandSeriesPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecommandPostPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <MostViewedPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <RecentCommentPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <DailyVisitPanel />
-          </Grid>
-          <Grid item className={sizeStyles.fullWidth}>
-            <SocialPanel />
-          </Grid>
-        </Grid>
-      )} */}
     </>
   );
 }
+
+export const getServerSideProps = Store.getServerSideProps(async (context) => {
+  // 쿠키 설정
+  setSSRCookies(context);
+
+  // 로그인 정보 가져오기
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const token = cookie
+    ? cookie.replace(/(?:(?:^|.*;\s*)access_token\s*=\s*([^;]*).*$)|^.*$/, "$1")
+    : null;
+  if (token) {
+    context.store.dispatch(checkLogin());
+  }
+
+  // 초기 데이터 불러오기
+  context.store.dispatch(loadInitialData());
+  context.store.dispatch(END);
+
+  await context.store.sagaTask.toPromise();
+
+  // check 에러 발생시 잘못된 토큰이므로 삭제 및 다시 로그인
+  const state = context.store.getState();
+  if (state.user.checkError) {
+    context.res.setHeader("Set-Cookie", "access_token=deleted; Max-Age=-1");
+    context.res.end();
+  }
+});
 
 export default index;
