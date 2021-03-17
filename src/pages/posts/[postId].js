@@ -16,19 +16,7 @@ function PostViewer() {
 
   // 에러 발생시
   if (error) {
-    return (
-      <>
-        {error.status ? (
-          <div>
-            {error.status}
-            <br />
-            {error.message}
-          </div>
-        ) : (
-          <div>에러가 발생했습니다</div>
-        )}
-      </>
-    );
+    return <div>{error}</div>;
   }
 
   return (

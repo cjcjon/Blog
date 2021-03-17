@@ -47,7 +47,7 @@ function* loadInitialDataSaga() {
   } catch (err) {
     yield put({
       type: LOAD_INITIAL_DATA_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: err.response ? err.response.data : err.message,
     });
   }
 }

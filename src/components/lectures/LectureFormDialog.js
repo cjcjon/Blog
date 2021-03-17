@@ -101,11 +101,7 @@ function LectureFormDialog({
                 {lectureDialog.inputError}
               </div>
             )}
-            {error && (
-              <div className={errorStyles.defaultError}>
-                전송에 실패하였습니다
-              </div>
-            )}
+            {error && <div className={errorStyles.defaultError}>{error}</div>}
           </form>
         </DialogContent>
         <DialogActions>

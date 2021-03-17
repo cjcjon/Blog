@@ -46,12 +46,7 @@ function* loadOriginalPostSaga({ payload: postId }) {
     // 실패
     yield put({
       type: LOAD_ORIGINAL_POST_FAILURE,
-      payload: {
-        status: err.response.status,
-        name: err.name,
-        message: err.response.data,
-        stack: err.stack,
-      },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -76,7 +71,7 @@ function* writeSaga({ payload: formData }) {
     // 실패
     yield put({
       type: WRITE_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -101,7 +96,7 @@ function* modifySaga({ payload: formData }) {
     // 실패
     yield put({
       type: MODIFY_FAILURE,
-      payload: { name: err.name, message: err.response.data, stack: err.stack },
+      payload: err.response ? err.response.data : err.message,
     });
   } finally {
     // 로딩 종료
@@ -124,6 +119,7 @@ const writePostReducer = handleActions(
       title: postInfo.title,
       body: postInfo.body,
       tags: postInfo.tags,
+      error: null,
     }),
     [LOAD_ORIGINAL_POST_FAILURE]: (state, { payload }) => ({
       ...state,

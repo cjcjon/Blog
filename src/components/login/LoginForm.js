@@ -68,7 +68,7 @@ function LoginForm({ formData, onChange, onSubmit, loginError }) {
           로그인
         </Button>
         {loginError && (
-          <div className={errorStyles.defaultError}>{loginError.message}</div>
+          <div className={errorStyles.defaultError}>{loginError}</div>
         )}
       </form>
     </Container>
