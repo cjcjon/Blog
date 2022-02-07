@@ -1,5 +1,5 @@
 [React](https://ko.reactjs.org/)를 기본으로 한 SSR을 지원해주는 [Next.js](https://nextjs.org/)를 활용해서 만들어진 블로그용 Frontend 코드입니다.
-현재 http://118.67.132.126/ 에서 운영중입니다
+~현재 http://118.67.132.126/ 에서 운영중입니다~ 서버 운영 종료
 
 ## 사용한 라이브러리
 - [React](https://ko.reactjs.org/)
